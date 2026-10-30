@@ -118,7 +118,7 @@ The root page includes a tiny inline script: if `?lang=` is a live locale other 
 
 ### Seasonal hero
 
-The home hero shows `01-bain-nordique-terrasse-hiver` from December to April and `36-bain-nordique-ete-panorama` from May to November (owner's choice, 30 Oct 2026; was `38-alpages-ete`). Render both `<picture>` elements; an inline script in `<head>` sets `data-season` on `<html>` from the current month; CSS shows the matching one. Without JS, show the winter one. The headline and the first line of copy stay the same; only the image and a short seasonal line change.
+The home hero shows `17-salon-vue` (the living room and glass gable) all year: the owner's choice on 30 Oct 2026, replacing the seasonal hot-tub photos (`01` winter, `36` summer). An inline script in `<head>` still sets `data-season` on `<html>` from the current month (winter December to April), and it switches only the short seasonal line under the headline. Photo 17 is a 1024 px source: replace it with a sharp shot of the same view after the December photo shoot.
 
 ### Translation workflow
 

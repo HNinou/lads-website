@@ -24,7 +24,7 @@ const links = [pagePath(locale, 'chalet'), pagePath(locale, 'gallery'), pagePath
 const points = fm.points.items.map((p: any, i: number) => ({
   ...p,
   href: links[i],
-  photo: ['13', '35', '11'][i],
+  photo: ['23', '35', '11'][i],
   position: ['50% 50%', '50% 60%', '50% 55%'][i],
 }));
 const access = Object.fromEntries(chalet.location.access.map((a: any) => [a.by, fact(locale, a.text)]));
@@ -85,10 +85,8 @@ const jsonLd = {
   <Hero
     locale={locale}
     size="full"
-    winter="01"
-    summer="36"
+    winter="17"
     position="50% 45%"
-    summerPosition="50% 40%"
     kicker={fm.hero.kicker}
     title={fm.hero.title}
     lede={lede}
@@ -103,7 +101,7 @@ const jsonLd = {
   <FactsStrip locale={locale} />
 
   <Section kicker={fm.gallery.kicker} title={fm.gallery.title}>
-    <Gallery locale={locale} ids={['04', '13', '25', '29', '06']} layout="strip" />
+    <Gallery locale={locale} ids={['04', '14', '25', '29', '06']} layout="strip" />
     <p class="after"><a class="btn btn-ghost" href={pagePath(locale, 'gallery')}>{t(locale, 'ui.seeGallery')}</a></p>
   </Section>
 
