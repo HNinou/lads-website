@@ -1,0 +1,144 @@
+# Les Alpages du Soleil: single source of truth for every fact on the site.
+# Rules (same as Dolce & Azzurra):
+#   - Pages read facts from this file; never retype them.
+#   - TODO_OWNER = unknown. Do NOT invent it: omit the element and list it in the build report.
+#   - verified: false = single source; show it, but list it in the build report.
+# The verifier and owner-todo scripts read this file (scripts/lib/site.mjs).
+
+site:
+  domain: "https://www.lesalpagesdusoleil.com"   # owner to confirm this is the Nuxit domain
+  cname: "www.lesalpagesdusoleil.com"
+  default_locale: fr                              # French at the root (/), other languages in folders
+  locales:
+    - { code: fr, name: Français,   status: live,  reviewer: owner }
+    - { code: en, name: English,    status: live,  reviewer: owner }
+    - { code: de, name: Deutsch,    status: draft, reviewer: native-freelancer }
+    - { code: nl, name: Nederlands, status: draft, reviewer: native-freelancer }
+  legacy_lang_param: true   # the old site used /?lang=en etc.
+
+legal:
+  registration_number: TODO_OWNER   # meublé de tourisme registration number; national service planned Q4 2026
+  classification: TODO_OWNER        # e.g. "Meublé de tourisme ★★★★ (2026)"; Clévacances label 2017-2020 has expired
+  owner_name: TODO_OWNER            # person or company operating the rental (for the legal notice)
+  address:
+    street: "86 chemin du Camping"
+    postal_code: "73700"
+    city: "Montvalezan"
+    resort: "La Rosière 1850"
+    region: "Savoie"
+    country: "FR"
+  geo: { lat: 45.6270, lng: 6.8490, verified: false }
+  tourist_tax: TODO_OWNER
+  security_deposit: TODO_OWNER
+  cancellation: "100% refund up to 30 days before arrival, 50% up to 14 days before arrival"   # from Hostaway, 30 Oct 2026
+
+contact:
+  email: "lesalpagesdusoleil@gmail.com"   # switch to a domain address (ImprovMX) when ready
+  phone: "+33 6 71 11 94 90"
+  whatsapp: "33671119490"
+  instagram: "lesalpagesdusoleil"
+  languages_spoken: [fr, en]
+  local_welcome: "Anthony, Les Clefs de la Rosière"   # meets guests and explains the chalet
+
+booking:
+  provider: hostaway
+  base_url: "https://lesalpagesdusoleil.holidayfuture.com/"
+  listing_id: 559125
+  listing_url: "https://lesalpagesdusoleil.holidayfuture.com/listings/559125"
+  widget_button_action: checkout
+  # Only ONE booking path on the site: Hostaway. No Abritel/Airbnb links (the old Abritel link is dead).
+
+rates:
+  currency: EUR
+  all_inclusive: false          # cleaning fee separate unless the owner decides otherwise
+  weekly_from: TODO_OWNER       # lowest weekly price, shown as "from € … a week"
+  cleaning_fee: TODO_OWNER
+  periods: TODO_OWNER           # e.g. Christmas, February holidays, low winter, summer
+  minimum_stay:
+    winter_school_holidays: { nights: 7, changeover: saturday, status: proposed }
+    winter_other: { nights: 4, status: proposed }
+    summer: { nights: 3, status: proposed }
+  # Show "Minimum stay varies by season, see the calendar" while status is proposed.
+
+chalet:
+  name: "Les Alpages du Soleil"
+  name_meaning_en: "the sunny mountain pastures"
+  type: "Chalet"
+  capacity: { guests: 12, bedrooms: 5, bathrooms: 4 }
+  size_m2: 170
+  bedrooms:   # owner to complete bed sizes
+    - { id: 1, beds: TODO_OWNER }
+    - { id: 2, beds: TODO_OWNER }
+    - { id: 3, beds: TODO_OWNER }
+    - { id: 4, beds: TODO_OWNER }
+    - { id: 5, beds: "bunk beds", verified: false }
+  check_in: "16:00"
+  check_out: "10:00"
+  rules:
+    - "No smoking inside"
+    - "No pets"
+    - "No ski or snowboard boots on the wooden floors (ski room provided)"
+  setting: "Old village of La Rosière 1850, opposite the school, not overlooked"
+  spaces:
+    - { id: living, en: "Living and dining room under a cathedral ceiling, with a glass gable facing the mountains", fr: "Pièce à vivre sous charpente, pignon vitré face aux sommets" }
+    - { id: fireplace, en: "Fireplace with insert; firewood supplied", fr: "Cheminée avec insert ; bois fourni" }
+    - { id: kitchen, en: "Kitchen with island, two coffee makers (Nespresso and soft-pod)", fr: "Cuisine avec îlot, deux cafetières (Nespresso et dosettes)" }
+    - { id: dining, en: "Dining table for 12", fr: "Table pour 12" }
+    - { id: hot_tub, en: "Storvatt wood-fired outdoor hot tub for up to 6, on the south terrace", fr: "Bain nordique Storvatt au feu de bois, jusqu'à 6 personnes, sur la terrasse sud" }
+    - { id: terrace, en: "Private south-facing terrace, not overlooked, and a balcony facing the peaks", fr: "Terrasse privative plein sud sans vis-à-vis et balcon face aux sommets" }
+    - { id: sauna, en: "Sauna inside the chalet", fr: "Sauna dans le chalet" }
+    - { id: ski_room, en: "Ski room", fr: "Ski room" }
+    - { id: mezzanine, en: "Mezzanine", fr: "Mezzanine" }
+    - { id: balneo, en: "Bathtub with bubble jets", fr: "Baignoire balnéo", verified: false }   # arrival guide says "bubble bath"; owner to confirm
+  amenities:
+    - "Fibre internet (1 Gbit/s) and Wi-Fi"
+    - "Sonos multiroom sound (living room, ski room and three bathrooms)"
+    - "Apple TV"
+    - "Washing machine"
+    - "Dishwasher"
+    - "Private parking for 2 cars"
+  included:
+    - "Beds made on arrival, bed linen and towels"
+    - "Cleaning before and after your stay (kitchen and fridge to be left clean)"
+    - "For week stays: towel change and light clean on Wednesday"
+    - "Firewood for the fireplace and the hot tub stove"
+    - "Welcome on site by Anthony (Les Clefs de la Rosière)"
+  reviews:
+    hostaway: { rating: 5.0, count: 1, as_of: "2026-10-30" }
+    quotes:   # real quotes only; owner adds more with first name, country, month
+      - { name: "Fabrice", month: "August 2026", lang: fr, text: "Chalet exceptionnel dont on profite aussi bien par beau temps (balcon, terrasse, bain nordique) que par mauvais temps (séjour très spacieux) et vue à couper le souffle.", source: "Direct booking review" }
+    # Quotes are shown verbatim and attributed; banned-word checks do not apply inside real guest quotes
+    # (mark them with data-quote on the element so copy checks skip them).
+
+location:
+  ski_area:
+    name: "Espace San Bernardo"
+    km: 156
+    lifts: 39
+    altitude: "1,176–2,800 m"
+    linked_with: "La Thuile (Italy) via the Petit-Saint-Bernard pass"
+    labels: ["Famille Plus", "Flocon Vert"]
+    season_2026_27: "12 December 2026 – 17 April 2027 (Franco-Italian link until 11 April)"
+    source: "https://www.larosiere.net/en/the-ski-area/"
+  to_lifts: { distance: "300 m as the crow flies", walk_minutes: TODO_OWNER, route: "Footpath past the tennis courts to the lift car park" }
+  village: ["Supermarket in the village", "Bakery delivering bread to the chalet each morning", "Cheese cooperative in the main street"]
+  restaurants:
+    - { name: "Le Miroir", note: "Next door, lunch and dinner", verified: false }
+    - { name: "Lo Riondet", note: "Mountain restaurant on the Italian side", verified: false }
+    - { name: "Tout Poudre", note: "Thursday dinner, snowmobile pick-up", verified: false }
+  access:
+    - { by: "train", text: "TGV and snow trains to Bourg-Saint-Maurice (about 20 km), then Altibus shuttle or taxi" }
+    - { by: "car", text: "Chambéry about 135 km · Lyon about 210 km · Geneva about 215 km. In winter, access only via Bourg-Saint-Maurice (Petit-Saint-Bernard pass closed). Snow equipment required." }
+    - { by: "air", text: "Chambéry, Lyon-Saint-Exupéry and Geneva airports; Altibus shuttles from Lyon and Geneva in winter" }
+  summer:
+    - "Walks from the chalet; Lac Longet (20 min walk from the Petit-Saint-Bernard hospice), Redoute Ruinée fort"
+    - "Roche Jaille and Dents Rouges hikes"
+    - "Bike park and mountain biking, via ferrata, paragliding, rafting, 9-hole golf, tennis"
+    - "Day trips to the Aosta Valley and La Thuile over the Petit-Saint-Bernard pass (summer only)"
+
+services:   # all on request, arranged by the owner or partners; no third-party phone numbers on the site
+  - { id: bread, en: "Fresh bread and pastries delivered every morning" }
+  - { id: meals, en: "Savoyard meals delivered (raclette, fondue)" }
+  - { id: ski, en: "Ski rental and lessons booked for your arrival" }
+  - { id: chef, en: "Private chef for an evening" }
+  - { id: transfers, en: "Transfers from Bourg-Saint-Maurice station or Geneva airport" }

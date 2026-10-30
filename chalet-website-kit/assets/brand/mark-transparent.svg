@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Les Alpages du Soleil">
+  <defs>
+    <style>
+      .bg{fill:#f7f3ea;}
+      .art{fill:#0a6183;}
+      .ray{stroke:#0a6183;stroke-width:19.35;stroke-linecap:round;}
+      .sep{fill:#0a6183;stroke:#f7f3ea;stroke-width:32.26;stroke-linejoin:round;}
+      @media (prefers-color-scheme: dark){ .bg{fill:#f7f3ea;} }
+    </style>
+  </defs>
+  
+  <g>
+    <g class="ray">
+      <line x1="256.0" y1="165.25" x2="256.0" y2="100.74"/>
+      <line x1="328.25" y1="184.61" x2="360.51" y2="128.74"/>
+      <line x1="381.15" y1="237.51" x2="437.02" y2="205.25"/>
+      <line x1="183.75" y1="184.61" x2="151.49" y2="128.74"/>
+      <line x1="130.85" y1="237.51" x2="74.98" y2="205.25"/>
+      <line x1="400.51" y1="309.76" x2="465.02" y2="309.76"/>
+      <line x1="111.49" y1="309.76" x2="46.98" y2="309.76"/>
+    </g>
+    <path class="art" d="M 126.98 309.76 A 129.02 129.02 0 0 1 385.02 309.76 Z"/>
+    <polygon class="sep" points="170.84,309.76 221.94,214.28 259.41,265.84 300.28,241.02 341.16,309.76"/>
+    <line x1="126.98" y1="309.76" x2="385.02" y2="309.76" stroke="#0a6183" stroke-width="15.05" stroke-linecap="round"/>
+  </g>
+</svg>

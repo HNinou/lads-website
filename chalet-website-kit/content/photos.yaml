@@ -1,0 +1,109 @@
+# Photo catalogue. Files: assets/photos/ (copy to src/assets/photos/ during setup).
+# rights: owner -> all photos are the owner's own. quality: low = 1024 px source, replace after the professional shoot.
+# role: hero (winter hero) | hero_summer | feature | gallery. season: winter | summer | any.
+# alt_en: factual; translate for fr/de/nl. Never describe things not visible in the photo.
+
+photos:
+  - { file: 01-bain-nordique-terrasse-hiver.jpg, w: 2400, h: 1800, rights: owner, role: hero, group: terrace, season: winter, quality: ok,
+      alt_en: "Wood-fired hot tub on the snowy terrace facing the Tarentaise peaks" }
+  - { file: 02-balcon-vue-hiver.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: views, season: winter, quality: ok,
+      alt_en: "Balcony over the snowy valley and peaks" }
+  - { file: 03-bain-nordique-depuis-le-sejour.jpg, w: 1800, h: 2400, rights: owner, role: gallery, group: terrace, season: winter, quality: ok,
+      alt_en: "The hot tub on the terrace seen through the living-room window" }
+  - { file: 04-terrasse-transats-hiver.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: terrace, season: winter, quality: ok,
+      alt_en: "Two sun loungers on the terrace above a sea of clouds" }
+  - { file: 05-bain-nordique-bois.jpg, w: 2400, h: 1800, rights: owner, role: gallery, group: terrace, season: summer, quality: ok,
+      alt_en: "The wooden hot tub filled, mountains behind" }
+  - { file: 06-chalet-facade-nuit.jpg, w: 1800, h: 2400, rights: owner, role: feature, group: exterior, season: winter, quality: ok,
+      alt_en: "The chalet's stone and wood facade lit at night" }
+  - { file: 07-vallee-de-nuit.jpg, w: 2400, h: 1800, rights: owner, role: gallery, group: views, season: winter, quality: ok,
+      alt_en: "Village lights in the valley at night, seen from the chalet" }
+  - { file: 08-coucher-de-soleil-vallee.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: views, season: winter, quality: ok,
+      alt_en: "Sunset over the valley from the chalet" }
+  - { file: 09-mer-de-nuages.jpg, w: 2400, h: 1800, rights: owner, role: gallery, group: views, season: winter, quality: ok,
+      alt_en: "A sea of clouds below the peaks, framed by fir trees" }
+  - { file: 10-neige-soleil.jpg, w: 2400, h: 1800, rights: owner, role: gallery, group: views, season: winter, quality: ok,
+      alt_en: "Fresh snow in the sun near the chalet" }
+  - { file: 11-pistes-espace-san-bernardo.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: ski, season: winter, quality: ok,
+      alt_en: "Sunny slopes of the Espace San Bernardo" }
+  - { file: 12-vue-depuis-le-sejour.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: views, season: winter, quality: ok,
+      alt_en: "The view of snowy peaks from the living room" }
+  - { file: 13-sejour-pignon-vitre.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: living, season: winter, quality: ok,
+      alt_en: "Living room under the cathedral ceiling with the glass gable facing the mountains" }
+  - { file: 14-sejour-cheminee.jpg, w: 2048, h: 1536, rights: owner, role: gallery, group: living, season: winter, quality: ok,
+      alt_en: "Living room with sofas and the fireplace" }
+  - { file: 15-cuisine-ilot-sejour.jpg, w: 2048, h: 1536, rights: owner, role: gallery, group: kitchen, season: any, quality: ok,
+      alt_en: "Kitchen island opening onto the living room" }
+  - { file: 16-salon-canapes.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "Sofas in the living room below the timber roof" }
+  - { file: 17-salon-vue.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "Living room with the mountain view through the windows" }
+  - { file: 18-salon-cheminee-plaids.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "Sofas with throws beside the fireplace" }
+  - { file: 19-salon-tv.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "Lounge area with TV" }
+  - { file: 20-sejour-charpente.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "The timber-framed living and dining space" }
+  - { file: 21-cuisine-vue-sejour.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: kitchen, season: any, quality: low,
+      alt_en: "The kitchen with a view across the living room" }
+  - { file: 22-cuisine.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: kitchen, season: any, quality: low,
+      alt_en: "Equipped kitchen with island and bar stools" }
+  - { file: 23-salle-a-manger-12.jpg, w: 1024, h: 768, rights: owner, role: feature, group: dining, season: any, quality: low,
+      alt_en: "Dining table for twelve under the timber beams" }
+  - { file: 24-chambre-lit-double.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: bedrooms, season: any, quality: low,
+      alt_en: "Bedroom with a double bed and wood-panelled walls" }
+  - { file: 25-chambre-vue-montagne.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: bedrooms, season: any, quality: low,
+      alt_en: "Bedroom with a window onto the mountains" }
+  - { file: 26-chambre-lits-superposes.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: bedrooms, season: any, quality: low,
+      alt_en: "Children's bedroom with bunk beds" }
+  - { file: 27-salle-de-bain-pierre.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: bathrooms, season: any, quality: low,
+      alt_en: "Stone and wood bathroom with bathtub" }
+  - { file: 28-salle-de-douche.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: bathrooms, season: any, quality: low,
+      alt_en: "Shower room in stone and wood" }
+  - { file: 29-sauna.jpg, w: 1800, h: 2400, rights: owner, role: feature, group: wellness, season: any, quality: ok,
+      alt_en: "The sauna" }
+  - { file: 30-espace-sauna.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: wellness, season: any, quality: low,
+      alt_en: "Sauna area beside the wooden stairs" }
+  - { file: 31-escalier-pierre-bois.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "Wooden staircase around a stone wall" }
+  - { file: 32-couloir-bois.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: living, season: any, quality: low,
+      alt_en: "Wood-panelled corridor" }
+  - { file: 33-enseigne-chalet.jpg, w: 1800, h: 2400, rights: owner, role: gallery, group: exterior, season: any, quality: ok,
+      alt_en: "The carved Les Alpages du Soleil sign" }
+  - { file: 34-balcon-vue-montagnes.jpg, w: 1024, h: 768, rights: owner, role: gallery, group: views, season: winter, quality: low,
+      alt_en: "Balcony railing and the mountain view" }
+  - { file: 35-bain-nordique-ete.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: terrace, season: summer, quality: ok,
+      alt_en: "The hot tub in summer behind its wooden screen, valley beyond" }
+  - { file: 36-bain-nordique-ete-panorama.jpg, w: 2400, h: 1800, rights: owner, role: gallery, group: terrace, season: summer, quality: ok,
+      alt_en: "The hot tub on the terrace on a summer day" }
+  - { file: 37-terrasse-ete-vallee.jpg, w: 2400, h: 1800, rights: owner, role: feature, group: terrace, season: summer, quality: ok,
+      alt_en: "Summer view from the terrace over green pastures and peaks" }
+  - { file: 38-alpages-ete.jpg, w: 2400, h: 1800, rights: owner, role: hero_summer, group: summer, season: summer, quality: ok,
+      alt_en: "Summer alpine pastures facing a snow-capped summit" }
+  - { file: 39-vallee-ete.jpg, w: 2400, h: 1800, rights: owner, role: gallery, group: summer, season: summer, quality: ok,
+      alt_en: "The green valley in summer" }
+  - { file: 40-terrasse-sud-ete-facade.jpg, w: 2048, h: 1536, rights: owner, role: feature, group: exterior, season: summer, quality: ok,
+      alt_en: "The south terrace and the chalet facade in summer" }
+  - { file: 41-panorama-ete.jpg, w: 3000, h: 783, rights: owner, role: gallery, group: summer, season: summer, quality: ok,
+      alt_en: "Summer panorama of the valley" }
+  - { file: 42-panorama-ete-2.jpg, w: 3000, h: 923, rights: owner, role: gallery, group: summer, season: summer, quality: ok,
+      alt_en: "Summer panorama from the chalet" }
+  - { file: 43-alpages-ete-sommet.jpg, w: 2016, h: 1512, rights: owner, role: gallery, group: summer, season: summer, quality: ok,
+      alt_en: "Alpine pastures and summit in summer" }
+  - { file: 44-alpages-ete-vertical.jpg, w: 1512, h: 2016, rights: owner, role: gallery, group: summer, season: summer, quality: ok,
+      alt_en: "Pastures and peak in summer" }
+  - { file: 45-hameau-ete.jpg, w: 2016, h: 1512, rights: owner, role: gallery, group: summer, season: summer, quality: ok,
+      alt_en: "Stone hamlet and valley in summer" }
+
+brand:
+  - { file: assets/brand/logo-les-alpages-du-soleil.svg, note: "Full logo (sun over mountains + name). Large file; use for print/OG image only." }
+  - { file: assets/brand/mark-transparent.svg, note: "Sun-and-mountains mark: use inline in the header with the name set in type." }
+  - { file: assets/brand/favicon.svg, note: "Favicon." }
+
+missing_before_launch:   # shot list for the photographer (mid-December)
+  - "Daytime winter exterior with snow on the roof"
+  - "All 5 bedrooms (bed sizes visible) and all 4 bathrooms"
+  - "Living room and dining table set for 12, fire lit, natural light"
+  - "Hot tub at dusk with steam (people from behind)"
+  - "Ski room with skis and boots"
+  - "Sauna lit, towels"
