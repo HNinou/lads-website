@@ -32,7 +32,7 @@ const RESOURCE_ALLOWLIST = new Set(['d2q3n06xhbi0am.cloudfront.net', new URL(HOS
 const BANNED = [
   [/\b(luxe|luxueux|luxueuse|luxury|luxurious|luxus|luxuri\w*|luxe-chalet|luxechalet)\b/i, '"luxury" claim (unverifiable; describe instead)'],
   [/meilleur(s)? (tarif|prix)|best (price|rate)|bester preis|beste prijs|prix le plus bas|lowest price/i, 'best-price claim'],
-  [/ski[\s-]?in|ski[\s-]?out|skis aux pieds|aux pieds des pistes|au pied des pistes|direkt an der piste|aan de piste/i, 'ski-in/ski-out claim (the lifts are 300 m away)'],
+  [/\bski[\s-]?in\b|\bski[\s-]?out\b|skis aux pieds|aux pieds des pistes|au pied des pistes|direkt an der piste|aan de piste/i, 'ski-in/ski-out claim (the lifts are 300 m away)'],
   [/\b(5|five|cinq|fünf|vijf)[\s-]?(star|étoiles?|sterne|sterren)/i, 'star-rating claim'],
   [/\b(paradise|paradis|paradies|paradijs|breathtaking|à couper le souffle|atemberaubend|adembenemend|exceptionnel|exceptional)\b/i, 'hype word'],
   [/lesalpagesdusoleil1/i, 'Wi-Fi password published (never put access codes on the website)'],
