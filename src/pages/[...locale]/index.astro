@@ -24,13 +24,13 @@ const links = [pagePath(locale, 'chalet'), pagePath(locale, 'gallery'), pagePath
 const points = fm.points.items.map((p: any, i: number) => ({
   ...p,
   href: links[i],
-  photo: ['13', '36', '11'][i],
+  photo: ['13', '35', '11'][i],
   position: ['50% 50%', '50% 60%', '50% 55%'][i],
 }));
 const access = Object.fromEntries(chalet.location.access.map((a: any) => [a.by, fact(locale, a.text)]));
 
 // VacationRental structured data (Google Vacation Rentals). No ratings, no reviews, no maxValue.
-const ldPhotos = ['01', '13', '14', '15', '04', '29', '06', '02', '24', '27', '35', '38'];
+const ldPhotos = ['01', '13', '14', '15', '04', '29', '06', '02', '24', '27', '35', '37'];
 const ldImages = await Promise.all(
   ldPhotos.map(async (id) => DOMAIN + (await getImage({ src: photo(id).src, width: Math.min(1600, maxWidth(photo(id))), format: 'webp', quality: 76 })).src),
 );
@@ -86,7 +86,7 @@ const jsonLd = {
     locale={locale}
     size="full"
     winter="01"
-    summer="38"
+    summer="36"
     position="50% 45%"
     summerPosition="50% 40%"
     kicker={fm.hero.kicker}

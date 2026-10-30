@@ -14,7 +14,7 @@ Claude Code updates this file at the end of every phase (see CLAUDE.md section 1
 
 Latest results (30 Oct 2026):
 - `npm run build`: 23 pages (11 FR + 11 EN + 404).
-- `npm run verify`: **PASS**, 1386 checks, 0 failures. Warnings: translation review flags (24), Gmail address (22 pages), registration number not set.
+- `npm run verify`: **PASS**, 1386 checks, 0 failures. Warnings: translation review flags (24), registration number not set.
 - `npm run verify -- --strict`: **FAIL** with 24 failures, all of them "not yet reviewed" flags. Nothing else fails.
 - `npm run check:visual`: **PASS**, 176 checks, 0 failures. 4 warnings: small buttons inside the Hostaway calendar (third-party markup) on Home and Book, mobile.
 - All 44 screenshots in `.verify/screenshots/` reviewed, plus manual captures of the mobile menu, the lightbox, the winter hero (forced January date) and the legacy `?lang=en` redirect.
@@ -22,7 +22,7 @@ Latest results (30 Oct 2026):
 ## What was built
 - Astro 7 static site, plain CSS with the CLAUDE.md tokens, 3–4 KB of inline vanilla JS per page, no JS files (menu, header state, sticky CTA, lightbox, lazy Hostaway loader, fade-ins).
 - 11 pages × FR (root) and EN (`/en/`), plus `/404.html`. DE and NL are not built (draft in chalet.yaml).
-- Seasonal home hero: `01` December–April, `38` May–November; both `<picture>`s rendered; `<html data-season>` set in `<head>`; winter without JS. Only the visible season's photo is downloaded.
+- Seasonal home hero: `01` December–April, `36` May–November (decision 16); both `<picture>`s rendered; `<html data-season>` set in `<head>`; winter without JS. Only the visible season's photo is downloaded.
 - Hostaway calendar on Home and Book (one per page), loaded when it comes within 600 px of the viewport, `<noscript>` text and a permanent "Ouvrir la page de réservation" fallback link to `booking.listing_url`.
 - `VacationRental` JSON-LD on both home pages: `additionalType: "Chalet"`, `containsPlace` with `occupancy {"@type":"QuantitativeValue","value":12}`, 5 bedrooms, 4 bathrooms, 170 m² (`MTK`), 12 absolute image URLs, address, geo, check-in/out, amenities. No `maxValue`, no rating, no review. `identifier` is added automatically once the registration number is set.
 - OG image per page (1200×630 JPEG crop), canonical, hreflang `fr-FR`/`en-GB`/`x-default`, sitemap with i18n alternates, `robots.txt`, `CNAME`.
@@ -39,15 +39,16 @@ Latest results (30 Oct 2026):
 8. **Minimum stay:** all rules are `proposed`, so every page shows "La durée minimale varie selon la saison, voir le calendrier." Confirmed rules will be listed automatically.
 9. **Hostaway rating not displayed.** chalet.yaml has 5.0 from a single review; showing "5.0" on one review reads as a claim and star ratings are banned until classification. Only Fabrice's quote is shown, verbatim in `[data-quote]`, in French on both languages.
 10. **Footer** has contact, address, legal links, language switch and ©; no slogan. Registration number appears automatically once set.
-11. **Images:** WebP for content photos, AVIF + WebP for heroes. Low-quality (1024 px) photos are generated at 900 px maximum and only used in grids, image pairs and the gallery. Portrait photos are capped at 1200 px wide, others at 1600 px (heroes 1920). Largest shipped image: 384 KB. Photo 40 (a person on the terrace) is only used in the gallery.
+11. **Images:** WebP for content photos, AVIF + WebP for heroes. Low-quality (1024 px) photos are generated at 900 px maximum and only used in grids, image pairs and the gallery. Portrait photos are capped at 1200 px wide, others at 1600 px (heroes 1920). Largest shipped image: 384 KB. Photos 40, 42 and 45 are not published (decision 16).
 12. **Fonts:** only the Latin and Latin Extended subsets of Literata and Inter are shipped (enough for FR, EN, DE, NL).
 13. **Services:** each card's "Nous demander / Ask us" opens WhatsApp with the service name prefilled. No partner phone numbers.
 14. **Privacy page** links Hostaway's privacy policy (`https://www.hostaway.com/privacy-policy/`, checked: HTTP 200).
 15. **Publishing before proofreading (owner's decision, 30 Oct 2026).** The deploy workflow now runs `npm run verify` instead of `npm run verify -- --strict`. `--strict` only turns the 24 "not yet reviewed" warnings into failures; every other check still blocks the deploy, and `scripts/verify.mjs` is unchanged. To block unproofread copy again, put `-- --strict` back in `.github/workflows/deploy.yml`.
+16. **Photo review (owner, 30 Oct 2026).** The summer home hero is now `36` (the hot tub facing the peaks), matching the winter hero `01`; `38` was a landscape that showed nothing of the chalet and stays on the Summer page and in the gallery. Not published: `40` (an identifiable person on an unfinished-looking terrace), `42` and `45` (a neighbour's washing; `45` also telecom masts); they stay in `content/photos.yaml` and `assets/photos/`, are filtered out in `src/lib/photos.ts`, and their copies were removed from `src/assets/photos/` (otherwise Astro ships the original files). On the Summer page `44` replaces `45` and panorama `41` replaces `42`; the home "terrace" card uses `35` so it never repeats the summer hero; in the JSON-LD `37` replaces `38`. All other photos checked: nothing inappropriate.
 
 ## Remaining warnings
 - **Translation review (no longer blocks the deploy, decision 15):** all 22 page files and both `src/i18n/*.json` are `reviewed: false` / `"_reviewed": false`.
-- **Gmail address** on every page: switch `contact.email` to a domain address (see the launch checklist).
+- **Contact email** is now `stay@lesalpagesdusoleil.com` (owner, 30 Oct 2026). It only receives mail once the ImprovMX records are live (see the launch checklist).
 - **Registration number** not set.
 - **Hostaway widget:** its day names and the "Select check-in and check-out dates" line are in English on the French pages, and its buttons are smaller than 44 px on mobile. These come from Hostaway's script; only the two button labels are configurable (done). At run time the widget contacts `d2q3n06xhbi0am.cloudfront.net` and `booking-engine.hostaway.com` (Hostaway's API); it loads no Google Fonts. No other page makes a third-party request.
 - **Geo coordinates** (`verified: false`) are published in the JSON-LD as allowed; please confirm the map pin.

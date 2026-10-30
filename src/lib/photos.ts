@@ -20,8 +20,13 @@ export interface Photo {
   src: ImageMetadata;
 }
 
+// Kept in the catalogue but not published (owner, 30 Oct 2026): 40 shows an identifiable
+// person, 42 and 45 a neighbour's washing (45 also telecom masts). Their files are also left out of
+// src/assets/photos/, or Astro would ship the untouched originals.
+const unpublished = new Set(['40', '42', '45']);
+
 export const photos: Photo[] = YAML.parse(raw)
-  .photos.filter((p: any) => p.rights === 'owner' || p.rights === 'licensed')
+  .photos.filter((p: any) => (p.rights === 'owner' || p.rights === 'licensed') && !unpublished.has(p.file.slice(0, 2)))
   .map((p: any) => {
     const mod = files[`../assets/photos/${p.file}`];
     if (!mod) throw new Error(`Photo ${p.file} listed in content/photos.yaml but missing from src/assets/photos/`);
