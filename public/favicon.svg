@@ -13,7 +13,7 @@
       <line x1="111.49" y1="309.76" x2="46.98" y2="309.76"/>
     </g>
     <path fill="#E2A23B" d="M 126.98 309.76 A 129.02 129.02 0 0 1 385.02 309.76 Z"/>
-    <polygon transform="translate(256 309.76) scale(1.2) translate(-256 -309.76)" fill="#FFFDF9" stroke="#2A2622" stroke-width="11.7" stroke-linejoin="round" points="170.84,309.76 221.94,214.28 259.41,265.84 300.28,241.02 341.16,309.76"/>
+    <polygon transform="translate(256 309.76) scale(1.1) translate(-256 -309.76)" fill="#FFFDF9" stroke="#2A2622" stroke-width="12.7" stroke-linejoin="round" points="170.84,309.76 221.94,214.28 259.41,265.84 300.28,241.02 341.16,309.76"/>
     <line x1="126.98" y1="309.76" x2="385.02" y2="309.76" stroke="#2A2622" stroke-width="15" stroke-linecap="round"/>
   </g>
 </svg>
