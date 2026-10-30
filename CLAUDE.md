@@ -248,4 +248,4 @@ As in the villa kit, plus the chalet-specific rules:
 
 ## 12. Deployment
 
-`.github/workflows/deploy.yml` builds, runs `verify --strict` and `check:visual --no-shots`, then deploys to GitHub Pages. The owner sets **Settings → Pages → Source: GitHub Actions** and the custom domain `www.lesalpagesdusoleil.com` with "Enforce HTTPS", and updates DNS at Nuxit (see `docs/LAUNCH-CHECKLIST.md`). Until FR and EN are proofread, `--strict` blocks deployment by design.
+`.github/workflows/deploy.yml` builds, runs `verify` and `check:visual --no-shots`, then deploys to GitHub Pages. The owner sets **Settings → Pages → Source: GitHub Actions** and the custom domain `www.lesalpagesdusoleil.com` with "Enforce HTTPS", and updates DNS at Nuxit (see `docs/LAUNCH-CHECKLIST.md`). The owner chose to publish before proofreading, so CI runs `verify` without `--strict`: unreviewed translations are warnings, not deploy blockers. Run `verify -- --strict` locally to list what is still unproofread.

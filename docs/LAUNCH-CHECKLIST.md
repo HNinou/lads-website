@@ -7,7 +7,7 @@
 - [ ] Confirm the `verified: false` items: map pin, balneo bathtub, bunk room, restaurants.
 - [ ] Decide the minimum stays and set them from `proposed` to `confirmed`.
 
-## Proofreading (blocks deployment until done)
+## Proofreading (no longer blocks deployment; see BUILD-REPORT decision 15)
 - [ ] Read every page in **French and English** (`npm run dev`, then http://localhost:4321).
 - [ ] Set `reviewed: true` / `"_reviewed": true` on each approved file.
 - [ ] Have the Legal notice, Terms (CGV) and Privacy pages checked.

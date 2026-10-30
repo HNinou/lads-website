@@ -10,7 +10,7 @@ Claude Code updates this file at the end of every phase (see CLAUDE.md section 1
 | 2. French content | done (`reviewed: false`) | `check` PASS, screenshots reviewed | 2026-10-30 |
 | 3. English | done (`reviewed: false`) | `check` PASS, `en-*` screenshots reviewed | 2026-10-30 |
 | 4. SEO polish | done | `check` PASS | 2026-10-30 |
-| 5. Deploy | **waiting for the owner** | `verify --strict` fails on the 24 review flags only (by design) | |
+| 5. Deploy | **waiting for the owner** (GitHub Pages settings, DNS) | CI runs `verify` without `--strict` (decision 15): PASS | 2026-10-30 |
 
 Latest results (30 Oct 2026):
 - `npm run build`: 23 pages (11 FR + 11 EN + 404).
@@ -43,9 +43,10 @@ Latest results (30 Oct 2026):
 12. **Fonts:** only the Latin and Latin Extended subsets of Literata and Inter are shipped (enough for FR, EN, DE, NL).
 13. **Services:** each card's "Nous demander / Ask us" opens WhatsApp with the service name prefilled. No partner phone numbers.
 14. **Privacy page** links Hostaway's privacy policy (`https://www.hostaway.com/privacy-policy/`, checked: HTTP 200).
+15. **Publishing before proofreading (owner's decision, 30 Oct 2026).** The deploy workflow now runs `npm run verify` instead of `npm run verify -- --strict`. `--strict` only turns the 24 "not yet reviewed" warnings into failures; every other check still blocks the deploy, and `scripts/verify.mjs` is unchanged. To block unproofread copy again, put `-- --strict` back in `.github/workflows/deploy.yml`.
 
 ## Remaining warnings
-- **Translation review (blocks deploy by design):** all 22 page files and both `src/i18n/*.json` are `reviewed: false` / `"_reviewed": false`.
+- **Translation review (no longer blocks the deploy, decision 15):** all 22 page files and both `src/i18n/*.json` are `reviewed: false` / `"_reviewed": false`.
 - **Gmail address** on every page: switch `contact.email` to a domain address (see the launch checklist).
 - **Registration number** not set.
 - **Hostaway widget:** its day names and the "Select check-in and check-out dates" line are in English on the French pages, and its buttons are smaller than 44 px on mobile. These come from Hostaway's script; only the two button labels are configurable (done). At run time the widget contacts `d2q3n06xhbi0am.cloudfront.net` and `booking-engine.hostaway.com` (Hostaway's API); it loads no Google Fonts. No other page makes a third-party request.
@@ -82,7 +83,7 @@ Output of `npm run todo` (30 Oct 2026):
 ```
 
 Also (see `docs/LAUNCH-CHECKLIST.md`):
-- [ ] Proofread FR and EN (`npm run dev`, http://localhost:4321), then set `reviewed: true` in each `src/content/pages/*/*.md` and `"_reviewed": true` in `src/i18n/fr.json` and `en.json`. Until then the deploy job stops at `verify --strict`.
+- [ ] Proofread FR and EN (`npm run dev`, http://localhost:4321), then set `reviewed: true` in each `src/content/pages/*/*.md` and `"_reviewed": true` in `src/i18n/fr.json` and `en.json`.
 - [ ] Have the Mentions légales, CGV and Confidentialité pages checked.
 - [ ] When you fill in bed sizes for bedroom 5 ("bunk beds") or confirm restaurants, add the French wording to `src/i18n/fr.json` → `"facts"`; the build will tell you the exact key it needs.
 - [ ] GitHub: Settings → Pages → Source: GitHub Actions; custom domain `www.lesalpagesdusoleil.com`, Enforce HTTPS; DNS at Nuxit.

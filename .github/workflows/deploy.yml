@@ -26,8 +26,9 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run build
-      # Static checks. --strict = unreviewed translations block the deploy.
-      - run: npm run verify -- --strict
+      # Static checks. Unreviewed translations are warnings, not failures: the owner
+      # chose to publish before proofreading. Restore `-- --strict` to block them again.
+      - run: npm run verify
       # Browser checks (no screenshots in CI).
       - run: npm run check:visual -- --no-shots
       - uses: actions/configure-pages@v5
