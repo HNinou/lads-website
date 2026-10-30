@@ -28,7 +28,7 @@ const seasonal = shots.length > 1;
       formats={['avif']}
       fallbackFormat="webp"
       width={Math.min(1920, p.w)}
-      widths={[640, 960, 1280, 1600, 1920].filter((w) => w <= p.w)}
+      widths={[...new Set([640, 960, 1280, 1600, 1920].filter((w) => w < p.w).concat(Math.min(1920, p.w)))]}
       sizes="100vw"
       quality={56}
       loading={seasonal ? 'lazy' : 'eager'}

@@ -11,8 +11,8 @@ export const getStaticPaths = localePaths;
 const { locale } = Astro.props;
 const { fm } = page(locale, 'services');
 ---
-<Base locale={locale} page="services" title={fm.title} description={fm.description} ogPhoto="14" overHero>
-  <Hero locale={locale} winter="14" position="50% 60%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede} />
+<Base locale={locale} page="services" title={fm.title} description={fm.description} ogPhoto="12" overHero>
+  <Hero locale={locale} winter="12" position="50% 50%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede} />
 
   <Section kicker={fm.list.kicker} title={fm.list.title} intro={fm.list.intro} band>
     <ul class="cards">

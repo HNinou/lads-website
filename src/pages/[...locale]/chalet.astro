@@ -15,14 +15,14 @@ const { fm } = page(locale, 'chalet');
 const c = chalet.chalet;
 const space = (ids: string[]) => spaces.filter((s: any) => ids.includes(s.id)).map((s: any) => (locale === 'en' ? s.en : s[locale] ?? fact(locale, s.en)));
 ---
-<Base locale={locale} page="chalet" title={fm.title} description={fm.description} ogPhoto="13" overHero>
-  <Hero locale={locale} winter="13" position="50% 55%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede}>
+<Base locale={locale} page="chalet" title={fm.title} description={fm.description} ogPhoto="14" overHero>
+  <Hero locale={locale} winter="14" position="50% 60%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede}>
     <p class="setting">{fact(locale, c.setting)}</p>
   </Hero>
 
   <Section kicker={fm.living.kicker} title={fm.living.title}>
     <div class="split">
-      <Figure id="14" locale={locale} ratio="4 / 3" />
+      <Figure id="17" locale={locale} ratio="4 / 3" />
       <div>
         <p class="lede">{fm.living.text}</p>
         <ul class="ticks">{space(['living', 'fireplace', 'kitchen', 'dining']).map((s) => <li>{s}</li>)}</ul>
