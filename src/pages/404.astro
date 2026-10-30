@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import { defaultLocale } from '../lib/facts';
+import { pagePath, t } from '../lib/i18n';
+
+// One 404 for the whole site (GitHub Pages serves /404.html), in French with an English line.
+const locale = defaultLocale;
+---
+<Base locale={locale} page="404" title="Page introuvable | Les Alpages du Soleil" description="Cette page n'existe pas ou a changé d'adresse. Retrouvez le chalet Les Alpages du Soleil à La Rosière depuis l'accueil.">
+  <section class="section">
+    <div class="container measure">
+      <p class="kicker">404</p>
+      <h1>Cette page n'existe pas</h1>
+      <p class="lede">Elle a peut-être changé d'adresse avec le nouveau site.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href={pagePath('fr', 'home')}>Retour à l'accueil</a>
+        <a class="btn btn-ghost" href={pagePath('fr', 'book')} data-cta="book">{t('fr', 'ui.checkDates')}</a>
+      </div>
+      <p class="en" lang="en-GB">This page does not exist. <a href={pagePath('en', 'home')}>Go to the English home page</a>.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section { min-height: 60vh; }
+  .en { margin-top: var(--space-4); color: var(--c-ink-soft); }
+</style>

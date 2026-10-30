@@ -1,0 +1,40 @@
+---
+import { weeklyFrom } from '../lib/facts';
+import { euros, pagePath, t } from '../lib/i18n';
+
+interface Props { locale: string }
+const { locale } = Astro.props;
+---
+<div class="sticky-cta" data-sticky>
+  <a class="btn btn-primary" href={pagePath(locale, 'book')} data-cta="book">
+    <span>{t(locale, 'ui.checkDates')}</span>
+    {weeklyFrom && <span class="from">· {t(locale, 'ui.fromPerWeek', { price: euros(locale, weeklyFrom) })}</span>}
+  </a>
+</div>
+
+<script>
+  // Slides in once the visitor has scrolled past the first screen (always visible without JS).
+  const bar = document.querySelector<HTMLElement>('[data-sticky]');
+  if (bar) {
+    const update = () => bar.classList.toggle('is-shown', scrollY > innerHeight * 0.5);
+    update();
+    addEventListener('scroll', update, { passive: true });
+  }
+</script>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 40;
+    padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom));
+    background: rgba(246, 243, 238, 0.94);
+    backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(42, 38, 34, 0.12);
+    transition: transform .35s var(--ease);
+  }
+  :global(.js) .sticky-cta:not(.is-shown) { transform: translateY(110%); }
+  .sticky-cta .btn { width: 100%; }
+  .from { font-weight: 400; }
+  @media (min-width: 640px) { .sticky-cta { display: none; } }
+</style>

@@ -1,0 +1,74 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import Figure from '../../components/Figure.astro';
+import BookBand from '../../components/BookBand.astro';
+import { chalet } from '../../lib/facts';
+import { fact, localePaths, page } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'summer');
+// location.summer: [walks + lakes, hikes, activities, Italy]
+const [walks, hikes, activities, italy] = chalet.location.summer.map((s: string) => fact(locale, s));
+---
+<Base locale={locale} page="summer" title={fm.title} description={fm.description} ogPhoto="38" overHero>
+  <Hero locale={locale} winter="43" position="50% 40%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede} />
+
+  <Section>
+    <div class="split">
+      <Figure id="45" locale={locale} ratio="4 / 3" position="50% 55%" />
+      <div>
+        <p class="kicker">{fm.walks.kicker}</p>
+        <h2>{fm.walks.title}</h2>
+        <ul class="ticks lede-list">
+          <li>{walks}</li>
+          <li>{hikes}</li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section band>
+    <div class="split reverse">
+      <Figure id="39" locale={locale} ratio="4 / 3" position="50% 50%" />
+      <div>
+        <p class="kicker">{fm.activities.kicker}</p>
+        <h2>{fm.activities.title}</h2>
+        <p class="lede">{activities}</p>
+      </div>
+    </div>
+  </Section>
+
+  <section class="pano" aria-label={fm.italy.title}>
+    <Figure id="42" locale={locale} sizes="100vw" class="pano-fig" />
+  </section>
+
+  <Section>
+    <div class="split top">
+      <div>
+        <p class="kicker">{fm.italy.kicker}</p>
+        <h2>{fm.italy.title}</h2>
+        <p class="lede">{italy}</p>
+      </div>
+      <div>
+        <p class="kicker">{fm.terrace.kicker}</p>
+        <h2 class="h">{fm.terrace.title}</h2>
+        <p>{fm.terrace.text}</p>
+        <Figure id="36" locale={locale} ratio="3 / 2" position="50% 50%" />
+      </div>
+    </div>
+  </Section>
+
+  <BookBand locale={locale} />
+</Base>
+
+<style>
+  .lede-list li { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.5; font-weight: 380; }
+  .lede-list li + li { margin-top: var(--space-2); }
+  .pano :global(.pano-fig .frame) { border-radius: 0; height: clamp(14rem, 31vw, 34rem); }
+  .pano :global(.pano-fig img) { object-position: 50% 50%; }
+  .h { font-size: var(--step-2); }
+  .split.top { align-items: start; }
+</style>

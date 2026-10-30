@@ -1,0 +1,34 @@
+---
+import { liveLocales } from '../lib/facts';
+import { HTML_LANG, pagePath, t, type PageId } from '../lib/i18n';
+
+interface Props { locale: string; page: PageId | '404'; class?: string }
+const { locale, page, class: cls } = Astro.props;
+const target = (page === '404' ? 'home' : page) as PageId;
+---
+<ul class:list={['lang-switch', cls]} aria-label={t(locale, 'ui.language')}>
+  {liveLocales.map((l) => (
+    <li>
+      <a
+        href={pagePath(l.code, target)}
+        hreflang={HTML_LANG[l.code]}
+        lang={HTML_LANG[l.code]}
+        aria-current={l.code === locale ? 'true' : undefined}
+      >{l.code.toUpperCase()}<span class="sr-only"> {l.name}</span></a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .lang-switch { display: flex; list-style: none; margin: 0; padding: 0; gap: 0.15rem; }
+  .lang-switch li { margin: 0; }
+  .lang-switch a {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 44px; min-height: 44px; padding: 0 0.35rem;
+    color: inherit; text-decoration: none;
+    font-size: var(--step--1); font-weight: 500; letter-spacing: 0.08em;
+    opacity: 0.78;
+  }
+  .lang-switch a:hover { opacity: 1; color: inherit; }
+  .lang-switch a[aria-current] { opacity: 1; text-decoration: underline; text-decoration-color: var(--c-sun); text-underline-offset: 0.4em; text-decoration-thickness: 2px; }
+</style>

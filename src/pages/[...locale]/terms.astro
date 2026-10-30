@@ -1,0 +1,61 @@
+---
+import Base from '../../layouts/Base.astro';
+import { chalet, cleaningFee, isSet, weeklyFrom } from '../../lib/facts';
+import { euros, fact, fill, localePaths, page } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'terms');
+const s = fm.sections;
+const deposit = isSet(chalet.legal.security_deposit) ? Number(chalet.legal.security_deposit) : null;
+const tax = isSet(chalet.legal.tourist_tax) ? String(chalet.legal.tourist_tax) : null;
+---
+<Base locale={locale} page="terms" title={fm.title} description={fm.description} ogPhoto="33">
+  <article class="section">
+    <div class="container prose measure">
+      <p class="kicker">{fm.kicker}</p>
+      <h1>{fm.heading}</h1>
+      <p class="lede">{fm.intro}</p>
+
+      <h2>{s.booking.title}</h2>
+      <p>{s.booking.text}</p>
+
+      <h2>{s.prices.title}</h2>
+      <p>{s.prices.text}</p>
+      {weeklyFrom && <p>{fill(s.prices.from, { price: euros(locale, weeklyFrom) })}</p>}
+
+      <h2>{s.cleaning.title}</h2>
+      <p>{s.cleaning.text}</p>
+      {cleaningFee && <p>{fill(s.cleaning.amount, { price: euros(locale, cleaningFee) })}</p>}
+
+      {deposit && (
+        <>
+          <h2>{s.deposit.title}</h2>
+          <p>{fill(s.deposit.text, { price: euros(locale, deposit) })}</p>
+        </>
+      )}
+
+      <h2>{s.cancellation.title}</h2>
+      <p>{s.cancellation.text}</p>
+
+      {tax && (
+        <>
+          <h2>{s.tax.title}</h2>
+          <p>{fill(s.tax.text, { tax })}</p>
+        </>
+      )}
+
+      <h2>{s.times.title}</h2>
+      <p>{s.times.text}</p>
+
+      <h2>{s.rules.title}</h2>
+      <ul>{chalet.chalet.rules.map((r: string) => <li>{fact(locale, r)}</li>)}</ul>
+
+      <h2>{s.capacity.title}</h2>
+      <p>{s.capacity.text}</p>
+
+      <h2>{s.contact.title}</h2>
+      <p>{s.contact.text}</p>
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,22 @@
+---
+title: "Mentions légales | Les Alpages du Soleil"
+description: "Mentions légales du site du chalet Les Alpages du Soleil à La Rosière : éditeur, directeur de la publication, hébergeur et crédits photos."
+reviewed: false
+kicker: "Informations"
+heading: "Mentions légales"
+publisherTitle: "Éditeur du site"
+publisherIntro: "Le site {domain} présente le chalet Les Alpages du Soleil, location meublée de tourisme."
+ownerLabel: "Exploitant"
+addressLabel: "Adresse"
+phoneLabel: "Téléphone"
+emailLabel: "E-mail"
+directorTitle: "Directeur de la publication"
+directorDefault: "L'exploitant du chalet, joignable aux coordonnées ci-dessus."
+hostTitle: "Hébergement"
+hostText: "Le site est hébergé par GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis (GitHub Pages)."
+rentalTitle: "Location meublée de tourisme"
+registrationLabel: "Numéro d'enregistrement"
+classificationLabel: "Classement"
+creditsTitle: "Photos et contenus"
+creditsText: "Les photos et les textes du site appartiennent à l'exploitant du chalet. Toute reproduction demande son accord écrit."
+---

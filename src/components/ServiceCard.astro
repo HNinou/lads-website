@@ -1,0 +1,26 @@
+---
+import { whatsappHref } from '../lib/facts';
+import { t } from '../lib/i18n';
+
+interface Props { locale: string; title: string; text?: string; num: number }
+const { locale, title, text, num } = Astro.props;
+const href = `${whatsappHref}?text=${encodeURIComponent(title)}`;
+---
+<li class="card">
+  <p class="num" aria-hidden="true">{String(num).padStart(2, '0')}</p>
+  <h3>{title}</h3>
+  {text && <p>{text}</p>}
+  <a class="ask" href={href} rel="noopener">{t(locale, 'ui.askUs')}<span class="sr-only">, {title}</span></a>
+</li>
+
+<style>
+  .card {
+    margin: 0; display: flex; flex-direction: column;
+    padding: var(--space-3); background: var(--c-bg); border-radius: var(--radius);
+    border-top: 2px solid var(--c-larch);
+  }
+  .num { font-family: var(--font-display); color: var(--c-larch-ink); margin-bottom: 0.25rem; }
+  h3 { font-size: var(--step-1); }
+  p { color: var(--c-ink-soft); }
+  .ask { margin-top: auto; display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; align-self: flex-start; }
+</style>

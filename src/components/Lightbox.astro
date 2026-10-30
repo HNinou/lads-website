@@ -1,0 +1,95 @@
+---
+// One per page: opens a[data-lightbox] links in a <dialog>, with previous/next and keyboard support.
+import { t, tRaw } from '../lib/i18n';
+
+interface Props { locale: string }
+const { locale } = Astro.props;
+---
+<dialog class="lightbox" data-lightbox-dialog aria-label={t(locale, 'nav.gallery')} data-count={tRaw(locale, 'ui.photoCount')}>
+  <div class="stage" data-stage></div>
+  <p class="caption"><span class="count" data-count-out></span> <span data-caption-out></span></p>
+  <button class="lb-btn close" type="button" data-close aria-label={t(locale, 'ui.close')}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
+  </button>
+  <button class="lb-btn prev" type="button" data-prev aria-label={t(locale, 'ui.previous')}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 4l-8 8 8 8" /></svg>
+  </button>
+  <button class="lb-btn next" type="button" data-next aria-label={t(locale, 'ui.next')}>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4l8 8-8 8" /></svg>
+  </button>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox-dialog]');
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('a[data-lightbox]')];
+  if (dialog && links.length && typeof dialog.showModal === 'function') {
+    const stage = dialog.querySelector<HTMLElement>('[data-stage]')!;
+    const countOut = dialog.querySelector<HTMLElement>('[data-count-out]')!;
+    const captionOut = dialog.querySelector<HTMLElement>('[data-caption-out]')!;
+    let index = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      index = (i + links.length) % links.length;
+      const a = links[index];
+      const img = new Image();
+      img.src = a.href;
+      img.alt = a.dataset.caption || '';
+      img.width = Number(a.dataset.w);
+      img.height = Number(a.dataset.h);
+      stage.replaceChildren(img);
+      countOut.textContent = (dialog.dataset.count || '{n} / {total}').replace('{n}', String(index + 1)).replace('{total}', String(links.length));
+      captionOut.textContent = a.dataset.caption || '';
+    };
+    links.forEach((a, i) => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      opener = a;
+      show(i);
+      dialog.showModal();
+    }));
+    dialog.querySelector('[data-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-prev]')!.addEventListener('click', () => show(index - 1));
+    dialog.querySelector('[data-next]')!.addEventListener('click', () => show(index + 1));
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+    });
+    dialog.addEventListener('click', (e) => { if (e.target === dialog || e.target === stage) dialog.close(); });
+    dialog.addEventListener('close', () => { stage.replaceChildren(); opener?.focus(); });
+    let x0: number | null = null;
+    dialog.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) show(index + (dx < 0 ? 1 : -1));
+      x0 = null;
+    });
+  }
+</script>
+
+<style>
+  .lightbox {
+    width: 100vw; height: 100dvh; max-width: none; max-height: none;
+    margin: 0; padding: 0; border: 0;
+    background: rgba(20, 17, 14, 0.96); color: #F3EEE6;
+  }
+  .lightbox[open] { display: grid; grid-template-rows: 1fr auto; }
+  .lightbox::backdrop { background: rgba(20, 17, 14, 0.9); }
+  .stage { display: grid; place-items: center; padding: 4rem 1rem 0.5rem; min-height: 0; }
+  .stage :global(img) { max-width: min(100%, calc(100vw - 8rem)); max-height: calc(100dvh - 9rem); width: auto; height: auto; object-fit: contain; }
+  @media (max-width: 699px) { .stage :global(img) { max-width: 100%; max-height: calc(100dvh - 11rem); } }
+  .caption { margin: 0; padding: 0.75rem 1.25rem 1.25rem; text-align: center; font-size: var(--step--1); }
+  .count { opacity: 0.7; margin-right: 0.5rem; font-variant-numeric: tabular-nums; }
+  .lb-btn {
+    position: absolute; display: grid; place-items: center;
+    width: 48px; height: 48px; border: 0; border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12); color: #fff; cursor: pointer;
+  }
+  .lb-btn:hover { background: rgba(255, 255, 255, 0.24); }
+  .lb-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; }
+  .close { top: 0.75rem; right: 0.75rem; }
+  .prev, .next { top: 50%; transform: translateY(-50%); }
+  .prev { left: 0.75rem; }
+  .next { right: 0.75rem; }
+  @media (max-width: 699px) { .prev, .next { top: auto; bottom: 0.75rem; transform: none; } }
+</style>

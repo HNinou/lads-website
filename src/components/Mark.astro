@@ -1,0 +1,30 @@
+---
+// The sun-and-mountains mark (assets/brand/mark-transparent.svg) redrawn for inline use:
+// the sun is gold, the mountains and ground take currentColor, and the gap around the
+// mountains is a mask, so the mark works on any background.
+interface Props { id: string; class?: string }
+const { id, class: cls } = Astro.props;
+const mountains = '170.84,309.76 221.94,214.28 259.41,265.84 300.28,241.02 341.16,309.76';
+---
+<svg class={cls} viewBox="36 90 440 232" aria-hidden="true" focusable="false">
+  <defs>
+    <mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+      <rect width="512" height="512" fill="#fff" />
+      <polygon points={mountains} fill="#000" stroke="#000" stroke-width="32" stroke-linejoin="round" />
+    </mask>
+  </defs>
+  <g mask={`url(#${id})`}>
+    <g stroke="#E2A23B" stroke-width="19.35" stroke-linecap="round">
+      <line x1="256" y1="165.25" x2="256" y2="100.74" />
+      <line x1="328.25" y1="184.61" x2="360.51" y2="128.74" />
+      <line x1="381.15" y1="237.51" x2="437.02" y2="205.25" />
+      <line x1="183.75" y1="184.61" x2="151.49" y2="128.74" />
+      <line x1="130.85" y1="237.51" x2="74.98" y2="205.25" />
+      <line x1="400.51" y1="309.76" x2="465.02" y2="309.76" />
+      <line x1="111.49" y1="309.76" x2="46.98" y2="309.76" />
+    </g>
+    <path fill="#E2A23B" d="M 126.98 309.76 A 129.02 129.02 0 0 1 385.02 309.76 Z" />
+  </g>
+  <polygon points={mountains} fill="currentColor" />
+  <line x1="126.98" y1="309.76" x2="385.02" y2="309.76" stroke="currentColor" stroke-width="15" stroke-linecap="round" />
+</svg>

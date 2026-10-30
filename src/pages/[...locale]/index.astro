@@ -1,0 +1,196 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import FactsStrip from '../../components/FactsStrip.astro';
+import Section from '../../components/Section.astro';
+import Gallery from '../../components/Gallery.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import ThreePoints from '../../components/ThreePoints.astro';
+import Figure from '../../components/Figure.astro';
+import Reviews from '../../components/Reviews.astro';
+import BookingFacts from '../../components/BookingFacts.astro';
+import BookingWidget from '../../components/BookingWidget.astro';
+import { DOMAIN, address, chalet, classification, contact, registration, weeklyFrom, whatsappHref } from '../../lib/facts';
+import { HTML_LANG, euros, fact, localePaths, page, pagePath, t } from '../../lib/i18n';
+import { maxWidth, photo } from '../../lib/photos';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'home');
+const c = chalet.chalet;
+const lede = weeklyFrom ? `${fm.hero.lede} · ${t(locale, 'ui.fromPerWeek', { price: euros(locale, weeklyFrom) })}` : fm.hero.lede;
+const links = [pagePath(locale, 'chalet'), pagePath(locale, 'gallery'), pagePath(locale, 'winter')];
+const points = fm.points.items.map((p: any, i: number) => ({
+  ...p,
+  href: links[i],
+  photo: ['13', '36', '11'][i],
+  position: ['50% 50%', '50% 60%', '50% 55%'][i],
+}));
+const access = Object.fromEntries(chalet.location.access.map((a: any) => [a.by, fact(locale, a.text)]));
+
+// VacationRental structured data (Google Vacation Rentals). No ratings, no reviews, no maxValue.
+const ldPhotos = ['01', '13', '14', '15', '04', '29', '06', '02', '24', '27', '35', '38'];
+const ldImages = await Promise.all(
+  ldPhotos.map(async (id) => DOMAIN + (await getImage({ src: photo(id).src, width: Math.min(1600, maxWidth(photo(id))), format: 'webp', quality: 76 })).src),
+);
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'VacationRental',
+  '@id': `${DOMAIN}/#chalet`,
+  additionalType: 'Chalet',
+  name: c.name,
+  description: fm.description,
+  url: DOMAIN + pagePath(locale, 'home'),
+  inLanguage: HTML_LANG[locale],
+  image: ldImages,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: address.street,
+    postalCode: address.postal_code,
+    addressLocality: address.city,
+    addressRegion: address.region,
+    addressCountry: address.country,
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: chalet.legal.geo.lat, longitude: chalet.legal.geo.lng },
+  telephone: contact.phone.replace(/\s/g, ''),
+  email: contact.email,
+  checkinTime: c.check_in,
+  checkoutTime: c.check_out,
+  knowsLanguage: contact.languages_spoken,
+  containsPlace: {
+    '@type': 'Accommodation',
+    additionalType: 'EntirePlace',
+    numberOfBedrooms: c.capacity.bedrooms,
+    numberOfBathroomsTotal: c.capacity.bathrooms,
+    occupancy: { '@type': 'QuantitativeValue', value: c.capacity.guests },
+    floorSize: { '@type': 'QuantitativeValue', value: c.size_m2, unitCode: 'MTK' },
+    amenityFeature: [
+      { '@type': 'LocationFeatureSpecification', name: 'hotTub', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'sauna', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'wifi', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'fireplace', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'dishwasher', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'tv', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'freeParking', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'balcony', value: true },
+      { '@type': 'LocationFeatureSpecification', name: 'petsAllowed', value: false },
+      { '@type': 'LocationFeatureSpecification', name: 'smokingAllowed', value: false },
+    ],
+  },
+  ...(registration ? { identifier: registration } : {}),
+};
+---
+<Base locale={locale} page="home" title={fm.title} description={fm.description} overHero legacyRedirect={locale === 'fr'} jsonLd={jsonLd}>
+  <Hero
+    locale={locale}
+    size="full"
+    winter="01"
+    summer="38"
+    position="50% 45%"
+    summerPosition="50% 40%"
+    kicker={fm.hero.kicker}
+    title={fm.hero.title}
+    lede={lede}
+    seasonLines={{ winter: t(locale, 'ui.season.winter'), summer: t(locale, 'ui.season.summer') }}
+  >
+    <div class="btn-row">
+      <a class="btn btn-primary" href={pagePath(locale, 'book')} data-cta="book">{t(locale, 'ui.checkDates')}</a>
+      <a class="btn btn-light" href={whatsappHref} rel="noopener">{t(locale, 'ui.ask')}</a>
+    </div>
+  </Hero>
+
+  <FactsStrip locale={locale} />
+
+  <Section kicker={fm.gallery.kicker} title={fm.gallery.title}>
+    <Gallery locale={locale} ids={['04', '13', '25', '29', '06']} layout="strip" />
+    <p class="after"><a class="btn btn-ghost" href={pagePath(locale, 'gallery')}>{t(locale, 'ui.seeGallery')}</a></p>
+  </Section>
+
+  <Section kicker={fm.points.kicker} title={fm.points.title} band>
+    <ThreePoints locale={locale} points={points} />
+  </Section>
+
+  <Section kicker={fm.area.kicker} title={fm.area.title}>
+    <div class="split top">
+      <Figure id="12" locale={locale} ratio="4 / 3" position="50% 40%" />
+      <div>
+        <p class="lede">{fm.area.intro}</p>
+        <dl class="area">
+          <div><dt>{fm.area.skiLabel}</dt><dd>{fm.area.ski}</dd></div>
+          <div><dt>{fm.area.walkLabel}</dt><dd>{fm.area.walk}</dd></div>
+          <div><dt>{fm.area.trainLabel}</dt><dd>{access.train}</dd></div>
+          <div><dt>{fm.area.airLabel}</dt><dd>{access.air}</dd></div>
+          <div><dt>{fm.area.summerLabel}</dt><dd>{fm.area.summer}</dd></div>
+        </dl>
+        <p class="links">
+          <a href={pagePath(locale, 'winter')}>{fm.area.links.winter}</a>
+          <a href={pagePath(locale, 'summer')}>{fm.area.links.summer}</a>
+          <a href={pagePath(locale, 'access')}>{fm.area.links.access}</a>
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <Section kicker={fm.trust.kicker} title={fm.trust.title} band>
+    <div class="trust">
+      <Reviews locale={locale} />
+      <div class="hosts">
+        <h3>{fm.trust.hostsTitle}</h3>
+        {locale !== 'fr' && fm.trust.meaning && <p>{fm.trust.meaning}</p>}
+        <p>{fm.trust.hosts}</p>
+        <p>{fm.trust.welcome}</p>
+        {(classification || registration) && (
+          <p class="official">
+            {classification && <span>{classification}</span>}
+            {registration && <span>{t(locale, 'footer.registration', { n: registration })}</span>}
+          </p>
+        )}
+      </div>
+    </div>
+  </Section>
+
+  <section class="section booking" id="booking">
+    <div class="container">
+      <header class="booking-head">
+        <p class="kicker">{fm.booking.kicker}</p>
+        <h2>{fm.booking.title}</h2>
+        <p class="lede">{fm.booking.intro}</p>
+      </header>
+      <div class="booking-grid">
+        <BookingFacts locale={locale} />
+        <div>
+          <h3>{fm.booking.includedTitle}</h3>
+          <ul class="ticks">
+            {c.included.map((i: string) => <li>{fact(locale, i)}</li>)}
+          </ul>
+        </div>
+      </div>
+      <BookingWidget locale={locale} />
+    </div>
+  </section>
+
+  <Lightbox locale={locale} />
+</Base>
+
+<style>
+  .after { margin: var(--space-4) 0 0; }
+  .split.top { align-items: start; }
+  .area { margin: var(--space-3) 0; }
+  .area > div { display: grid; gap: 0.15rem; padding-block: 0.75rem; border-top: 1px solid rgba(42, 38, 34, 0.14); }
+  @media (min-width: 700px) { .area > div { grid-template-columns: 9.5rem 1fr; gap: var(--space-2); } }
+  .area dt { font: 500 var(--step--1)/1.6 var(--font-text); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-soft); padding-top: 0.15rem; }
+  .area dd { margin: 0; }
+  .links { display: flex; flex-wrap: wrap; gap: 0 var(--space-3); }
+  .links a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
+
+  .trust { display: grid; gap: var(--space-5); }
+  @media (min-width: 900px) { .trust { grid-template-columns: 1.3fr 1fr; align-items: start; } }
+  .hosts h3 { font-size: var(--step-2); }
+  .official { display: flex; flex-direction: column; font-size: var(--step--1); color: var(--c-ink-soft); }
+
+  .booking { background: color-mix(in srgb, var(--c-sun) 16%, var(--c-bg)); border-top: 3px solid var(--c-sun); }
+  .booking-head { max-width: 46rem; margin-bottom: var(--space-4); }
+  .booking-grid { display: grid; gap: var(--space-4); margin-bottom: var(--space-5); }
+  @media (min-width: 900px) { .booking-grid { grid-template-columns: 1.2fr 1fr; gap: var(--space-5); align-items: start; } }
+</style>

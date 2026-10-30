@@ -1,0 +1,27 @@
+---
+import { chalet, mapsUrl } from '../lib/facts';
+import { fact, t } from '../lib/i18n';
+
+interface Props { locale: string; maps?: boolean }
+const { locale, maps = true } = Astro.props;
+---
+<dl class="access">
+  {chalet.location.access.map((a: any) => (
+    <div class="row">
+      <dt>{t(locale, `access.${a.by}`)}</dt>
+      <dd>{fact(locale, a.text)}</dd>
+    </div>
+  ))}
+</dl>
+{maps && (
+  <p class="maps"><a class="btn btn-ghost" href={mapsUrl} rel="noopener" target="_blank">{t(locale, 'ui.openMaps')} <span class="sr-only">{t(locale, 'ui.newTab')}</span></a></p>
+)}
+
+<style>
+  .access { margin: 0 0 var(--space-3); }
+  .row { display: grid; gap: 0.25rem; padding-block: var(--space-2); border-top: 1px solid rgba(42, 38, 34, 0.15); }
+  .row:last-child { border-bottom: 1px solid rgba(42, 38, 34, 0.15); }
+  @media (min-width: 700px) { .row { grid-template-columns: 9rem 1fr; gap: var(--space-3); } }
+  dt { font: 500 var(--step--1)/1.6 var(--font-text); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-soft); padding-top: 0.15rem; }
+  dd { margin: 0; }
+</style>

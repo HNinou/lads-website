@@ -1,0 +1,33 @@
+---
+// A page section: optional kicker, heading and intro, then the slot. `band` gives it the surface colour.
+interface Props {
+  id?: string;
+  kicker?: string;
+  title?: string;
+  intro?: string;
+  band?: boolean;
+  narrow?: boolean;
+  class?: string;
+}
+const { id, kicker, title, intro, band = false, narrow = false, class: cls } = Astro.props;
+---
+<section id={id} class:list={['section', { band }, cls]}>
+  <div class:list={['container', 'reveal']}>
+    {(kicker || title || intro) && (
+      <header class:list={['section-head', { narrow }]}>
+        {kicker && <p class="kicker">{kicker}</p>}
+        {title && <h2>{title}</h2>}
+        {intro && <p class="intro">{intro}</p>}
+      </header>
+    )}
+    <div class:list={[{ 'measure': narrow }]}>
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-head { max-width: 46rem; margin-bottom: var(--space-4); }
+  .section-head.narrow { max-width: var(--measure); }
+  .intro { font-size: var(--step-1); line-height: 1.5; color: var(--c-ink-soft); font-family: var(--font-display); font-weight: 380; }
+</style>

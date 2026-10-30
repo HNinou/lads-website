@@ -1,0 +1,48 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import BookingWidget from '../../components/BookingWidget.astro';
+import BookingFacts from '../../components/BookingFacts.astro';
+import Faq from '../../components/Faq.astro';
+import { chalet } from '../../lib/facts';
+import { fact, localePaths, page } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'book');
+const c = chalet.chalet;
+---
+<Base locale={locale} page="book" title={fm.title} description={fm.description} ogPhoto="01">
+  <section class="section top">
+    <div class="container">
+      <p class="kicker">{fm.kicker}</p>
+      <h1>{fm.heading}</h1>
+      <p class="intro">{fm.intro}</p>
+      <BookingWidget locale={locale} />
+    </div>
+  </section>
+
+  <Section title={fm.detailsTitle} band>
+    <div class="cols">
+      <BookingFacts locale={locale} />
+      <div>
+        <h3>{fm.includedTitle}</h3>
+        <ul class="ticks">{c.included.map((i: string) => <li>{fact(locale, i)}</li>)}</ul>
+        <h3 class="sub">{fm.rulesTitle}</h3>
+        <ul class="ticks">{c.rules.map((r: string) => <li>{fact(locale, r)}</li>)}</ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section title={fm.faqTitle}>
+    <Faq items={fm.faq} />
+  </Section>
+</Base>
+
+<style>
+  .top { padding-bottom: var(--space-5); background: var(--c-surface); }
+  .intro { font-size: var(--step-1); font-family: var(--font-display); font-weight: 380; color: var(--c-ink-soft); max-width: 42rem; margin-bottom: var(--space-4); }
+  .cols { display: grid; gap: var(--space-5); }
+  @media (min-width: 900px) { .cols { grid-template-columns: 1.2fr 1fr; } }
+  .sub { margin-top: var(--space-4); }
+</style>

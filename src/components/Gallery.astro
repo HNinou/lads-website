@@ -1,0 +1,63 @@
+---
+// Photo grid. Each tile links to a large version (works without JS); Lightbox.astro enhances the links.
+import { Image, getImage } from 'astro:assets';
+import { alt, maxWidth, photo } from '../lib/photos';
+
+interface Props { locale: string; ids: string[]; layout?: 'grid' | 'strip' | 'rooms' }
+const { locale, ids, layout = 'grid' } = Astro.props;
+const items = await Promise.all(
+  ids.map(async (id) => {
+    const p = photo(id);
+    const big = await getImage({ src: p.src, width: maxWidth(p), format: 'webp', quality: 68 });
+    const shape = p.w / p.h > 2 ? 'wide' : p.h > p.w ? 'tall' : 'std';
+    return { p, big, shape, text: alt(locale, p) };
+  }),
+);
+const sizes = layout === 'strip' ? '(min-width: 1100px) 20vw, (min-width: 700px) 33vw, 50vw' : '(min-width: 1100px) 25vw, (min-width: 700px) 33vw, 50vw';
+---
+<ul class:list={['gallery', layout]}>
+  {items.map(({ p, big, shape, text }) => (
+    <li class={shape}>
+      <a href={big.src} data-lightbox data-caption={text} data-w={big.attributes.width} data-h={big.attributes.height}>
+        <Image
+          src={p.src}
+          alt={text}
+          width={Math.min(1000, maxWidth(p))}
+          widths={[400, 700, Math.min(1000, maxWidth(p))].filter((w, i, a) => w <= maxWidth(p) && a.indexOf(w) === i)}
+          sizes={shape === 'wide' ? '(min-width: 700px) 66vw, 100vw' : sizes}
+          format="webp"
+          quality={72}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .gallery { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; grid-auto-flow: dense; }
+  .gallery li { margin: 0; }
+  .gallery a { display: block; height: 100%; overflow: hidden; border-radius: var(--radius); background: var(--c-surface); }
+  .gallery :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform .6s var(--ease); }
+  .gallery a:hover :global(img) { transform: scale(1.03); }
+
+  .grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(9rem, 30vw, 15rem); }
+  @media (min-width: 700px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1100px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+  .grid .wide { grid-column: 1 / -1; }
+
+  /* rooms: three bedrooms on one row, two bathrooms on the next */
+  .rooms { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(9rem, 38vw, 15rem); }
+  .rooms li:first-child { grid-column: 1 / -1; }
+  @media (min-width: 700px) {
+    .rooms { grid-template-columns: repeat(6, 1fr); grid-auto-rows: clamp(11rem, 22vw, 17rem); }
+    .rooms li, .rooms li:first-child { grid-column: span 2; }
+    .rooms li:nth-child(n+4) { grid-column: span 3; }
+  }
+
+  .strip { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(9rem, 38vw, 14rem); }
+  .strip li:first-child { grid-column: 1 / -1; }
+  @media (min-width: 700px) { .strip { grid-template-columns: repeat(3, 1fr); } .strip li:first-child { grid-column: span 1; } .strip li:nth-child(n+4) { display: none; } }
+  @media (min-width: 1100px) { .strip { grid-template-columns: 1.4fr 1fr 1fr 0.75fr 1fr; grid-auto-rows: 20rem; } .strip li:nth-child(n+4) { display: block; } }
+</style>

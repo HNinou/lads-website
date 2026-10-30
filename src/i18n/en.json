@@ -1,0 +1,115 @@
+{
+  "_reviewed": false,
+  "site": {
+    "name": "Les Alpages du Soleil",
+    "place": "La Rosière 1850 · Savoie, France"
+  },
+  "nav": {
+    "home": "Home",
+    "chalet": "The Chalet",
+    "gallery": "Gallery",
+    "winter": "Winter",
+    "summer": "Summer",
+    "access": "Getting here",
+    "services": "Services",
+    "book": "Book",
+    "legal": "Legal notice",
+    "terms": "Booking terms",
+    "privacy": "Privacy"
+  },
+  "ui": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "closeMenu": "Close",
+    "mainNav": "Main navigation",
+    "footerNav": "Site pages",
+    "legalNav": "Legal information",
+    "language": "Language",
+    "homeLink": "Les Alpages du Soleil, home",
+    "checkDates": "Check dates",
+    "fromPerWeek": "from {price} a week",
+    "ask": "Ask a question",
+    "askWhatsapp": "Ask a question on WhatsApp",
+    "openMaps": "Open in Google Maps",
+    "seeGallery": "See the full gallery",
+    "discoverChalet": "Discover the chalet",
+    "more": "Find out more",
+    "source": "Source",
+    "newTab": "(new tab)",
+    "close": "Close",
+    "previous": "Previous photo",
+    "next": "Next photo",
+    "photoCount": "{n} / {total}",
+    "askUs": "Ask us",
+    "season": {
+      "winter": "In winter, the hot tub steams in front of the snowy peaks.",
+      "summer": "In summer, the mountain pastures start where the lane ends."
+    }
+  },
+  "strip": {
+    "label": "The chalet at a glance",
+    "guests": "guests",
+    "bedrooms": "bedrooms",
+    "bathrooms": "bathrooms",
+    "size": "floor area",
+    "hotTub": "Hot tub",
+    "sauna": "and sauna",
+    "toLifts": "from the lifts"
+  },
+  "access": {
+    "train": "By train",
+    "car": "By car",
+    "air": "By air"
+  },
+  "footer": {
+    "contact": "Contact",
+    "address": "Address",
+    "info": "Information",
+    "registration": "Registration no.: {n}",
+    "phone": "Phone",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "instagram": "Instagram",
+    "explore": "Explore"
+  },
+  "widget": {
+    "button": "Check dates",
+    "clear": "Clear dates",
+    "loading": "Loading the calendar…",
+    "noscript": "The calendar needs JavaScript. You can also book directly on our Hostaway booking page.",
+    "fallback": "Open the booking page"
+  },
+  "booking": {
+    "pricesLabel": "Prices",
+    "from": "From {price} a week.",
+    "prices": "Prices for your dates are shown in the calendar.",
+    "cleaningLabel": "Cleaning",
+    "cleaning": "Cleaning fee: {price}.",
+    "cleaningSeparate": "A cleaning fee is added to the rental price and shown before you pay.",
+    "minStayLabel": "Minimum stay",
+    "minStayVaries": "Minimum stay varies by season, see the calendar.",
+    "minStay": {
+      "winter_school_holidays": "Winter school holidays: {nights} nights, arriving on a {day}",
+      "winter_other": "Rest of the winter: {nights} nights",
+      "summer": "Summer: {nights} nights"
+    },
+    "days": {
+      "saturday": "Saturday",
+      "sunday": "Sunday",
+      "friday": "Friday"
+    },
+    "cancellationLabel": "Cancellation",
+    "cancellation": "{cancellation}.",
+    "depositLabel": "Security deposit",
+    "deposit": "{price}.",
+    "timesLabel": "Arrival and departure",
+    "times": "Arrival from {checkIn}, departure by {checkOut}.",
+    "capacityLabel": "Capacity",
+    "capacity": "{guests} guests maximum."
+  },
+  "band": {
+    "kicker": "Book direct",
+    "title": "Your dates in La Rosière",
+    "text": "The calendar shows live availability and prices. A question before you book? Send us a message."
+  }
+}

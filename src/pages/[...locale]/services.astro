@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import BookBand from '../../components/BookBand.astro';
+import { chalet } from '../../lib/facts';
+import { fact, localePaths, page } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'services');
+---
+<Base locale={locale} page="services" title={fm.title} description={fm.description} ogPhoto="14" overHero>
+  <Hero locale={locale} winter="14" position="50% 60%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede} />
+
+  <Section kicker={fm.list.kicker} title={fm.list.title} intro={fm.list.intro} band>
+    <ul class="cards">
+      {chalet.services.map((s: any, i: number) => <ServiceCard locale={locale} num={i + 1} title={fact(locale, s.en)} />)}
+    </ul>
+  </Section>
+
+  <Section kicker={fm.included.kicker} title={fm.included.title} narrow>
+    <ul class="ticks">{chalet.chalet.included.map((i: string) => <li>{fact(locale, i)}</li>)}</ul>
+  </Section>
+
+  <BookBand locale={locale} />
+</Base>
+
+<style>
+  .cards { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
+  @media (min-width: 700px) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+</style>

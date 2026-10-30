@@ -1,0 +1,70 @@
+---
+// Hostaway calendar widget (listing and base URL from chalet.yaml). One per page.
+// The Hostaway script is only fetched when the calendar comes near the viewport.
+import { chalet } from '../lib/facts';
+import { t } from '../lib/i18n';
+
+interface Props { locale: string }
+const { locale } = Astro.props;
+const b = chalet.booking;
+const config = {
+  baseUrl: b.base_url,
+  listingId: b.listing_id,
+  numberOfMonths: 2,
+  openInNewTab: false,
+  font: 'Open Sans',
+  rounded: false,
+  button: { action: b.widget_button_action, text: t(locale, 'widget.button') },
+  clearButtonText: t(locale, 'widget.clear'),
+  color: { mainColor: '#2E5E86', frameColor: '#ECE6DD', textColor: '#2A2622' },
+};
+---
+<div class="booking-widget">
+  <div id="hostaway-calendar-widget" data-hostaway={JSON.stringify(config)}></div>
+  <p class="loading" data-widget-loading aria-live="polite">{t(locale, 'widget.loading')}</p>
+  <noscript>
+    <p>{t(locale, 'widget.noscript')}</p>
+  </noscript>
+  <p class="fallback"><a href={b.listing_url}>{t(locale, 'widget.fallback')}</a></p>
+</div>
+
+<script>
+  const el = document.getElementById('hostaway-calendar-widget');
+  const loading = document.querySelector<HTMLElement>('[data-widget-loading]');
+  if (el && el.dataset.hostaway) {
+    const config = JSON.parse(el.dataset.hostaway);
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      const s = document.createElement('script');
+      s.src = 'https://d2q3n06xhbi0am.cloudfront.net/calendar.js';
+      s.async = true;
+      s.onload = () => {
+        const w = window as unknown as { hostawayCalendarWidget?: (c: unknown) => void };
+        if (typeof w.hostawayCalendarWidget === 'function') {
+          w.hostawayCalendarWidget(config);
+          loading?.remove();
+        }
+      };
+      document.head.append(s);
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { io.disconnect(); start(); }
+      }, { rootMargin: '600px 0px' });
+      io.observe(el);
+    } else start();
+  }
+</script>
+
+<style>
+  .booking-widget { background: var(--c-bg); border-radius: var(--radius); padding: var(--space-3) var(--space-2); }
+  @media (min-width: 700px) { .booking-widget { padding: var(--space-4); } }
+  #hostaway-calendar-widget { min-height: 2rem; max-width: 100%; overflow-x: auto; }
+  #hostaway-calendar-widget > :global(*) { margin-inline: auto; }
+  .loading { color: var(--c-ink-soft); font-size: var(--step--1); margin: 0; min-height: 18rem; display: grid; place-items: center; }
+  :global(html:not(.js)) .loading { display: none; }
+  .fallback { margin: var(--space-2) 0 0; font-size: var(--step--1); }
+  .fallback a { display: inline-flex; align-items: center; min-height: 44px; }
+</style>

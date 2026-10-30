@@ -1,0 +1,41 @@
+---
+// Price, cleaning, minimum stay, cancellation, deposit, times and capacity: each line only when chalet.yaml has it.
+import { chalet, cleaningFee, confirmedMinStays, isSet, weeklyFrom } from '../lib/facts';
+import { euros, t, vars } from '../lib/i18n';
+
+interface Props { locale: string }
+const { locale } = Astro.props;
+const v = vars(locale);
+const deposit = isSet(chalet.legal.security_deposit) ? Number(chalet.legal.security_deposit) : null;
+const rows: { label: string; lines: string[] }[] = [
+  { label: t(locale, 'booking.pricesLabel'), lines: [weeklyFrom ? t(locale, 'booking.from', { price: euros(locale, weeklyFrom) }) : t(locale, 'booking.prices')] },
+  { label: t(locale, 'booking.cleaningLabel'), lines: [cleaningFee ? t(locale, 'booking.cleaning', { price: euros(locale, cleaningFee) }) : t(locale, 'booking.cleaningSeparate')] },
+  {
+    label: t(locale, 'booking.minStayLabel'),
+    lines: confirmedMinStays.length
+      ? confirmedMinStays.map((r: any) => t(locale, `booking.minStay.${r.id}`, { nights: r.nights, day: r.changeover ? t(locale, `booking.days.${r.changeover}`) : '' }))
+      : [t(locale, 'booking.minStayVaries')],
+  },
+  { label: t(locale, 'booking.cancellationLabel'), lines: [t(locale, 'booking.cancellation', { cancellation: v.cancellation })] },
+  ...(deposit ? [{ label: t(locale, 'booking.depositLabel'), lines: [t(locale, 'booking.deposit', { price: euros(locale, deposit) })] }] : []),
+  { label: t(locale, 'booking.timesLabel'), lines: [t(locale, 'booking.times', v)] },
+  { label: t(locale, 'booking.capacityLabel'), lines: [t(locale, 'booking.capacity', v)] },
+];
+---
+<dl class="booking-facts">
+  {rows.map((r) => (
+    <div>
+      <dt>{r.label}</dt>
+      {r.lines.map((l) => <dd>{l}</dd>)}
+    </div>
+  ))}
+</dl>
+
+<style>
+  .booking-facts { margin: 0; display: grid; gap: 0; }
+  .booking-facts > div { padding-block: 0.85rem; border-bottom: 1px solid rgba(42, 38, 34, 0.14); display: grid; gap: 0.15rem; }
+  .booking-facts > div:first-child { border-top: 1px solid rgba(42, 38, 34, 0.14); }
+  @media (min-width: 700px) { .booking-facts > div { grid-template-columns: 11rem 1fr; gap: var(--space-2); } .booking-facts dd + dd { grid-column: 2; } }
+  dt { font: 500 var(--step--1)/1.6 var(--font-text); letter-spacing: 0.08em; text-transform: uppercase; color: var(--c-ink-soft); padding-top: 0.15rem; }
+  dd { margin: 0; }
+</style>

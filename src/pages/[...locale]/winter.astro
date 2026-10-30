@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import Figure from '../../components/Figure.astro';
+import BookBand from '../../components/BookBand.astro';
+import { chalet, restaurants } from '../../lib/facts';
+import { colon, fact, localePaths, page, pagePath, t, vars } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'winter');
+const ski = chalet.location.ski_area;
+const v = vars(locale);
+---
+<Base locale={locale} page="winter" title={fm.title} description={fm.description} ogPhoto="11" overHero>
+  <Hero locale={locale} winter="11" position="50% 60%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede} />
+
+  <Section kicker={fm.area.kicker} title={fm.area.title} intro={fm.area.text}>
+    <ul class="big-facts">
+      <li><span class="n">{v.km}</span> <span class="l">{fm.area.facts.km}</span></li>
+      <li><span class="n">{ski.lifts}</span> <span class="l">{fm.area.facts.lifts}</span></li>
+      <li><span class="n">{v.altitude}</span> <span class="l">{fm.area.facts.altitude}</span></li>
+    </ul>
+    <p class="season"><strong>{fm.area.seasonLabel}</strong>{colon(locale)}{v.skiSeason}.</p>
+    <p class="source">{t(locale, 'ui.source')}{colon(locale)}<a href={ski.source} rel="noopener">{fm.area.sourceLabel} (larosiere.net)</a></p>
+  </Section>
+
+  <Section band>
+    <div class="split">
+      <Figure id="02" locale={locale} ratio="4 / 3" position="50% 40%" />
+      <div>
+        <p class="kicker">{fm.italy.kicker}</p>
+        <h2>{fm.italy.title}</h2>
+        <p class="lede">{fm.italy.text}</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="split reverse">
+      <Figure id="10" locale={locale} ratio="4 / 3" position="50% 50%" />
+      <div>
+        <p class="kicker">{fm.lifts.kicker}</p>
+        <h2>{fm.lifts.title}</h2>
+        <p class="lede">{fm.lifts.text}</p>
+      </div>
+    </div>
+  </Section>
+
+  <Section band>
+    <div class="cols">
+      <div>
+        <p class="kicker">{fm.family.kicker}</p>
+        <h2 class="h">{fm.family.title}</h2>
+        <p>{fm.family.text}</p>
+        <p><a class="more" href={pagePath(locale, 'services')}>{fm.family.link}</a></p>
+      </div>
+      <div>
+        <p class="kicker">{fm.village.kicker}</p>
+        <h2 class="h">{fm.village.title}</h2>
+        <ul class="ticks">
+          {chalet.location.village.map((s: string) => <li>{fact(locale, s)}</li>)}
+          {restaurants.map((r: any) => <li>{r.name}{colon(locale)}{fact(locale, r.note)}</li>)}
+        </ul>
+        <h3>{fm.nonSkiers.title}</h3>
+        <p>{fm.nonSkiers.text}</p>
+      </div>
+    </div>
+  </Section>
+
+  <BookBand locale={locale} />
+</Base>
+
+<style>
+  .big-facts { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: grid; gap: var(--space-3); }
+  @media (min-width: 700px) { .big-facts { grid-template-columns: repeat(3, 1fr); } }
+  .big-facts li { margin: 0; display: flex; flex-direction: column; border-top: 1px solid var(--c-larch); padding-top: var(--space-2); }
+  .n { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.1; }
+  .l { color: var(--c-ink-soft); }
+  .source { font-size: var(--step--1); color: var(--c-ink-soft); }
+  .source a { display: inline-flex; align-items: center; min-height: 44px; }
+  .cols { display: grid; gap: var(--space-5); }
+  @media (min-width: 900px) { .cols { grid-template-columns: 1fr 1fr; } }
+  .h { font-size: var(--step-2); }
+  .more { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
+</style>

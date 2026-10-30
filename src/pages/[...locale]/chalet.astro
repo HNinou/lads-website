@@ -1,0 +1,107 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import Figure from '../../components/Figure.astro';
+import Gallery from '../../components/Gallery.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import BookBand from '../../components/BookBand.astro';
+import { bedroomsWithBeds, chalet, spaces } from '../../lib/facts';
+import { colon, fact, localePaths, page } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'chalet');
+const c = chalet.chalet;
+const space = (ids: string[]) => spaces.filter((s: any) => ids.includes(s.id)).map((s: any) => (locale === 'en' ? s.en : s[locale] ?? fact(locale, s.en)));
+---
+<Base locale={locale} page="chalet" title={fm.title} description={fm.description} ogPhoto="13" overHero>
+  <Hero locale={locale} winter="13" position="50% 55%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede}>
+    <p class="setting">{fact(locale, c.setting)}</p>
+  </Hero>
+
+  <Section kicker={fm.living.kicker} title={fm.living.title}>
+    <div class="split">
+      <Figure id="14" locale={locale} ratio="4 / 3" />
+      <div>
+        <p class="lede">{fm.living.text}</p>
+        <ul class="ticks">{space(['living', 'fireplace', 'kitchen', 'dining']).map((s) => <li>{s}</li>)}</ul>
+      </div>
+    </div>
+    <div class="pair">
+      <Figure id="15" locale={locale} ratio="4 / 3" sizes="(min-width: 900px) 50vw, 100vw" />
+      <Figure id="23" locale={locale} ratio="4 / 3" sizes="(min-width: 900px) 50vw, 100vw" />
+    </div>
+  </Section>
+
+  <Section kicker={fm.outside.kicker} title={fm.outside.title} band>
+    <div class="split reverse">
+      <Figure id="35" locale={locale} ratio="4 / 3" position="50% 40%" />
+      <div>
+        <p class="lede">{fm.outside.text}</p>
+        <ul class="ticks">{space(['hot_tub', 'terrace']).map((s) => <li>{s}</li>)}</ul>
+        <h3 class="sub">{fm.hotTub.title}</h3>
+        <ol class="steps">{fm.hotTub.steps.map((s: string) => <li>{s}</li>)}</ol>
+      </div>
+    </div>
+  </Section>
+
+  <Section kicker={fm.rooms.kicker} title={fm.rooms.title}>
+    <p class="lede measure">{fm.rooms.text}</p>
+    {bedroomsWithBeds.length > 0 && (
+      <>
+        <h3 class="sub">{fm.rooms.bedsTitle}</h3>
+        <ul class="ticks">{bedroomsWithBeds.map((b: any) => <li>{fm.rooms.bedroom.replace('{n}', b.id)}{colon(locale)}{fact(locale, b.beds)}</li>)}</ul>
+      </>
+    )}
+    <Gallery locale={locale} ids={['24', '25', '26', '27', '28']} layout="rooms" />
+  </Section>
+
+  <Section kicker={fm.more.kicker} title={fm.more.title} band>
+    <div class="split">
+      <div class="duo">
+        <Figure id="29" locale={locale} ratio="3 / 4" sizes="(min-width: 900px) 25vw, 50vw" />
+        <Figure id="30" locale={locale} ratio="3 / 4" sizes="(min-width: 900px) 25vw, 50vw" />
+      </div>
+      <div>
+        <ul class="ticks">{space(['sauna', 'ski_room', 'mezzanine', 'balneo']).map((s) => <li>{s}</li>)}</ul>
+        <h3 class="sub">{fm.amenitiesTitle}</h3>
+        <ul class="ticks">{c.amenities.map((a: string) => <li>{fact(locale, a)}</li>)}</ul>
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="cols">
+      <div>
+        <h2 class="h">{fm.includedTitle}</h2>
+        <ul class="ticks">{c.included.map((i: string) => <li>{fact(locale, i)}</li>)}</ul>
+      </div>
+      <div>
+        <h2 class="h">{fm.rulesTitle}</h2>
+        <ul class="ticks">
+          {c.rules.map((r: string) => <li>{fact(locale, r)}</li>)}
+          <li>{fm.times}</li>
+          <li>{fm.capacity}</li>
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <BookBand locale={locale} />
+  <Lightbox locale={locale} />
+</Base>
+
+<style>
+  .setting { opacity: 0.92; margin-bottom: 0; }
+  .pair { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
+  @media (min-width: 700px) { .pair { grid-template-columns: 1fr 1fr; } }
+  .sub { margin-top: var(--space-4); }
+  .steps { padding-left: 1.3em; }
+  .steps li::marker { color: var(--c-larch); font-family: var(--font-display); }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .cols { display: grid; gap: var(--space-5); }
+  @media (min-width: 900px) { .cols { grid-template-columns: 1fr 1fr; } }
+  .h { font-size: var(--step-2); }
+  .lede.measure { margin-bottom: var(--space-4); }
+</style>

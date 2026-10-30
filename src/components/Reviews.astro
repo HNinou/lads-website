@@ -1,0 +1,34 @@
+---
+// Real guest quotes from chalet.yaml, verbatim and attributed. data-quote exempts them from copy checks.
+import { chalet } from '../lib/facts';
+import { HTML_LANG, fact } from '../lib/i18n';
+
+interface Props { locale: string }
+const { locale } = Astro.props;
+const quotes = chalet.chalet.reviews?.quotes ?? [];
+---
+{quotes.length > 0 && (
+  <div class="reviews">
+    {quotes.map((q: any) => (
+      <figure class="review">
+        <blockquote data-quote lang={HTML_LANG[q.lang] ?? q.lang}>
+          <p>{q.lang === 'fr' ? `«\u00a0${q.text}\u00a0»` : `“${q.text}”`}</p>
+        </blockquote>
+        <figcaption>
+          <span class="who">{q.name}</span>
+          <span class="meta">{fact(locale, q.month)} · {fact(locale, q.source)}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+)}
+
+<style>
+  .reviews { display: grid; gap: var(--space-4); }
+  .review { margin: 0; padding-left: var(--space-3); border-left: 2px solid var(--c-sun); }
+  blockquote { margin: 0 0 var(--space-2); }
+  blockquote p { font-family: var(--font-display); font-size: var(--step-1); line-height: 1.5; font-weight: 380; margin: 0; }
+  figcaption { display: flex; flex-direction: column; font-size: var(--step--1); }
+  .who { font-weight: 600; }
+  .meta { color: var(--c-ink-soft); }
+</style>

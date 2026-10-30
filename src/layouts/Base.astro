@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyCta from '../components/StickyCta.astro';
+import { DOMAIN, defaultLocale, localeCodes } from '../lib/facts';
+import { HTML_LANG, OG_LOCALE, pagePath, t, type PageId } from '../lib/i18n';
+import { photo } from '../lib/photos';
+
+interface Props {
+  locale: string;
+  page: PageId | '404';
+  title: string;
+  description: string;
+  ogPhoto?: string;        // photo id for og:image (cropped to 1200x630)
+  overHero?: boolean;      // header is transparent over a full-bleed hero
+  jsonLd?: object;
+  legacyRedirect?: boolean; // root page only: /?lang=en -> /en/
+}
+
+const { locale, page, title, description, ogPhoto = '01', overHero = false, jsonLd, legacyRedirect = false } = Astro.props;
+const is404 = page === '404';
+const canonical = is404 ? null : DOMAIN + pagePath(locale, page as PageId);
+const og = await getImage({ src: photo(ogPhoto).src, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 78 });
+const ogImage = DOMAIN + og.src;
+const otherLive = localeCodes.filter((c) => c !== defaultLocale);
+---
+<!doctype html>
+<html lang={HTML_LANG[locale]} data-season="winter">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    {!is404 && localeCodes.map((code) => (
+      <link rel="alternate" hreflang={HTML_LANG[code]} href={DOMAIN + pagePath(code, page as PageId)} />
+    ))}
+    {!is404 && <link rel="alternate" hreflang="x-default" href={DOMAIN + pagePath(defaultLocale, page as PageId)} />}
+    {is404 && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={t(locale, 'site.name')} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={OG_LOCALE[locale]} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#F6F3EE" />
+    <script is:inline>
+      // Season for the home hero (Dec-Apr winter, May-Nov summer) and a flag for JS-only enhancements.
+      (function (d) {
+        var m = new Date().getMonth();
+        d.dataset.season = m >= 4 && m <= 10 ? 'summer' : 'winter';
+        d.classList.add('js');
+      })(document.documentElement);
+    </script>
+    {legacyRedirect && (
+      <script is:inline define:vars={{ otherLive }}>
+        // Old site used /?lang=en: send those visitors to the language folder.
+        var lang = new URLSearchParams(location.search).get('lang');
+        if (lang && otherLive.indexOf(lang.toLowerCase()) !== -1) location.replace('/' + lang.toLowerCase() + '/');
+      </script>
+    )}
+    <slot name="head" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body data-page={page}>
+    <a class="skip-link" href="#main">{t(locale, 'ui.skip')}</a>
+    <Header locale={locale} page={page} overHero={overHero} />
+    <main id="main" tabindex="-1" class:list={[{ 'under-header': !overHero }]}>
+      <slot />
+    </main>
+    <Footer locale={locale} page={page} />
+    {page !== 'book' && <StickyCta locale={locale} />}
+    <script>
+      // Subtle fade-in for sections as they enter the viewport.
+      const els = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+        }, { rootMargin: '0px 0px -8% 0px' });
+        els.forEach((el) => io.observe(el));
+      } else els.forEach((el) => el.classList.add('is-in'));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+---
+title: "Legal notice | Les Alpages du Soleil"
+description: "Legal notice for the Les Alpages du Soleil chalet website in La Rosière: publisher, publication director, hosting provider and photo credits."
+reviewed: false
+kicker: "Information"
+heading: "Legal notice"
+publisherTitle: "Publisher"
+publisherIntro: "The website {domain} presents Les Alpages du Soleil, a furnished holiday rental (meublé de tourisme)."
+ownerLabel: "Operator"
+addressLabel: "Address"
+phoneLabel: "Phone"
+emailLabel: "Email"
+directorTitle: "Publication director"
+directorDefault: "The operator of the chalet, reachable at the details above."
+hostTitle: "Hosting"
+hostText: "The site is hosted by GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, USA (GitHub Pages)."
+rentalTitle: "Holiday rental"
+registrationLabel: "Registration number"
+classificationLabel: "Classification"
+creditsTitle: "Photos and content"
+creditsText: "The photos and texts on this site belong to the operator of the chalet. Please ask for written permission before reusing them."
+---

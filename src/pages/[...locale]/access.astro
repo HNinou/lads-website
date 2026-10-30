@@ -1,0 +1,55 @@
+---
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/Hero.astro';
+import Section from '../../components/Section.astro';
+import AccessList from '../../components/AccessList.astro';
+import Figure from '../../components/Figure.astro';
+import BookBand from '../../components/BookBand.astro';
+import { address, chalet } from '../../lib/facts';
+import { fact, localePaths, page, pagePath } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'access');
+const parking = chalet.chalet.amenities.find((a: string) => /parking/i.test(a));
+---
+<Base locale={locale} page="access" title={fm.title} description={fm.description} ogPhoto="08" overHero>
+  <Hero locale={locale} winter="08" position="50% 50%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede} />
+
+  <Section>
+    <div class="split">
+      <div>
+        <p class="kicker">{fm.address.kicker}</p>
+        <h2>{fm.address.title}</h2>
+        <address class="lede">
+          {address.street}<br />
+          {address.postal_code} {address.city}<br />
+          {address.resort}, {address.region}
+        </address>
+        <ul class="ticks">
+          <li>{fact(locale, chalet.chalet.setting)}</li>
+          {parking && <li>{fact(locale, parking)}</li>}
+        </ul>
+      </div>
+      <Figure id="06" locale={locale} ratio="4 / 3" position="50% 45%" />
+    </div>
+  </Section>
+
+  <Section kicker={fm.ways.kicker} title={fm.ways.title} band>
+    <AccessList locale={locale} />
+    <p class="note">{fm.ways.note}</p>
+  </Section>
+
+  <Section kicker={fm.arrival.kicker} title={fm.arrival.title} narrow>
+    <p class="lede">{fm.arrival.times}</p>
+    <p>{fm.arrival.welcome}</p>
+    <p>{fm.arrival.transfers} <a href={pagePath(locale, 'services')}>{fm.arrival.transfersLink}</a></p>
+  </Section>
+
+  <BookBand locale={locale} />
+</Base>
+
+<style>
+  address { font-style: normal; margin-bottom: var(--space-3); }
+  .note { font-size: var(--step--1); color: var(--c-ink-soft); margin-top: var(--space-3); }
+</style>

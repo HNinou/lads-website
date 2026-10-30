@@ -1,0 +1,38 @@
+---
+import { chalet } from '../lib/facts';
+import { t, vars } from '../lib/i18n';
+
+interface Props { locale: string }
+const { locale } = Astro.props;
+const v = vars(locale);
+const c = chalet.chalet.capacity;
+const items = [
+  { value: c.guests, label: t(locale, 'strip.guests') },
+  { value: c.bedrooms, label: t(locale, 'strip.bedrooms') },
+  { value: c.bathrooms, label: t(locale, 'strip.bathrooms') },
+  { value: v.size, label: t(locale, 'strip.size') },
+  { value: t(locale, 'strip.hotTub'), label: t(locale, 'strip.sauna'), text: true },
+  { value: v.distance, label: t(locale, 'strip.toLifts') },
+];
+---
+<section class="facts" aria-label={t(locale, 'strip.label')}>
+  <ul class="container">
+    {items.map((i) => (
+      <li><span class:list={['value', { text: i.text }]}>{i.value}</span> <span class="label">{i.label}</span></li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .facts { background: var(--c-surface); border-bottom: 1px solid rgba(185, 138, 78, 0.35); }
+  ul {
+    list-style: none; margin-block: 0; padding: var(--space-3) 0;
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3) var(--space-2);
+  }
+  @media (min-width: 700px) { ul { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1100px) { ul { grid-template-columns: repeat(6, auto); justify-content: space-between; padding-block: var(--space-4); } }
+  li { margin: 0; display: flex; flex-direction: column; gap: 0.15rem; }
+  .value { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.1; font-weight: 450; }
+  .value.text { font-size: var(--step-1); line-height: 1.32; padding-top: 0.25rem; }
+  .label { font-size: var(--step--1); color: var(--c-ink-soft); letter-spacing: 0.02em; }
+</style>

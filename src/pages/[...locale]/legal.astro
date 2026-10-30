@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import { address, chalet, classification, contact, isSet, phoneHref, registration } from '../../lib/facts';
+import { colon, localePaths, page } from '../../lib/i18n';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'legal');
+const owner = isSet(chalet.legal.owner_name) ? chalet.legal.owner_name : null;
+const c = colon(locale);
+---
+<Base locale={locale} page="legal" title={fm.title} description={fm.description} ogPhoto="33">
+  <article class="section">
+    <div class="container prose measure">
+      <p class="kicker">{fm.kicker}</p>
+      <h1>{fm.heading}</h1>
+
+      <h2>{fm.publisherTitle}</h2>
+      <p>{fm.publisherIntro}</p>
+      <ul>
+        {owner && <li>{fm.ownerLabel}{c}{owner}</li>}
+        <li>{fm.addressLabel}{c}{address.street}, {address.postal_code} {address.city}, France</li>
+        <li>{fm.phoneLabel}{c}<a href={phoneHref}>{contact.phone}</a></li>
+        <li>{fm.emailLabel}{c}<a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+      </ul>
+
+      <h2>{fm.directorTitle}</h2>
+      <p>{owner ?? fm.directorDefault}</p>
+
+      <h2>{fm.hostTitle}</h2>
+      <p>{fm.hostText}</p>
+
+      {(registration || classification) && (
+        <>
+          <h2>{fm.rentalTitle}</h2>
+          <ul>
+            {registration && <li>{fm.registrationLabel}{c}{registration}</li>}
+            {classification && <li>{fm.classificationLabel}{c}{classification}</li>}
+          </ul>
+        </>
+      )}
+
+      <h2>{fm.creditsTitle}</h2>
+      <p>{fm.creditsText}</p>
+    </div>
+  </article>
+</Base>

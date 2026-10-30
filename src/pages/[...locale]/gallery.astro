@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Gallery from '../../components/Gallery.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import BookBand from '../../components/BookBand.astro';
+import { localePaths, page } from '../../lib/i18n';
+import { photos } from '../../lib/photos';
+
+export const getStaticPaths = localePaths;
+const { locale } = Astro.props;
+const { fm } = page(locale, 'gallery');
+const groups = fm.groups
+  .map((g: any) => ({ title: g.title, ids: photos.filter((p) => g.match.includes(p.group)).map((p) => p.id) }))
+  .filter((g: any) => g.ids.length);
+---
+<Base locale={locale} page="gallery" title={fm.title} description={fm.description} ogPhoto="04">
+  <section class="section head">
+    <div class="container">
+      <p class="kicker">{fm.kicker}</p>
+      <h1>{fm.heading}</h1>
+      <p class="intro">{fm.intro}</p>
+      <nav class="jump" aria-label={fm.heading}>
+        <ul>{groups.map((g: any, i: number) => <li><a href={`#g${i + 1}`}>{g.title}</a></li>)}</ul>
+      </nav>
+    </div>
+  </section>
+  {groups.map((g: any, i: number) => (
+    <section class="group" id={`g${i + 1}`}>
+      <div class="container">
+        <h2>{g.title}</h2>
+        <Gallery locale={locale} ids={g.ids} />
+      </div>
+    </section>
+  ))}
+  <div class="spacer"></div>
+  <BookBand locale={locale} />
+  <Lightbox locale={locale} />
+</Base>
+
+<style>
+  .head { padding-bottom: var(--space-3); }
+  .intro { font-size: var(--step-1); font-family: var(--font-display); font-weight: 380; color: var(--c-ink-soft); max-width: 40rem; }
+  .jump ul { list-style: none; padding: 0; margin: var(--space-3) 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .jump li { margin: 0; }
+  .jump a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem;
+    border: 1px solid rgba(42, 38, 34, 0.25); border-radius: 999px;
+    color: var(--c-ink); text-decoration: none; font-size: var(--step--1);
+  }
+  .jump a:hover { border-color: var(--c-ink); }
+  .group { padding-top: var(--space-4); }
+  .group h2 { font-size: var(--step-2); }
+  .spacer { height: var(--space-5); }
+</style>

@@ -1,0 +1,103 @@
+---
+// Full-bleed hero. With `summer`, it is the seasonal home hero: both <picture> elements are rendered,
+// <html data-season> (set in <head>) decides which one shows; without JS the winter one shows.
+import { Picture } from 'astro:assets';
+import { alt, photo } from '../lib/photos';
+
+interface Props {
+  locale: string;
+  winter: string;          // photo id (also the only photo for non-seasonal heroes)
+  summer?: string;
+  position?: string;       // object-position (keep the peaks in frame)
+  summerPosition?: string;
+  kicker?: string;
+  title: string;
+  lede?: string;
+  seasonLines?: { winter: string; summer: string };
+  size?: 'full' | 'page';
+}
+const { locale, winter, summer, position = '50% 50%', summerPosition = '50% 50%', kicker, title, lede, seasonLines, size = 'page' } = Astro.props;
+const shots = [{ season: 'winter', p: photo(winter), pos: position }, ...(summer ? [{ season: 'summer', p: photo(summer), pos: summerPosition }] : [])];
+const seasonal = shots.length > 1;
+---
+<section class:list={['hero', `hero-${size}`]}>
+  {shots.map(({ season, p, pos }) => (
+    <Picture
+      src={p.src}
+      alt={alt(locale, p)}
+      formats={['avif']}
+      fallbackFormat="webp"
+      width={Math.min(1920, p.w)}
+      widths={[640, 960, 1280, 1600, 1920].filter((w) => w <= p.w)}
+      sizes="100vw"
+      quality={56}
+      loading={seasonal ? 'lazy' : 'eager'}
+      fetchpriority="high"
+      decoding="async"
+      class={seasonal ? `hero-${season}` : undefined}
+      pictureAttributes={{ class: `hero-pic${seasonal ? ` hero-pic-${season}` : ''}` }}
+      style={`object-position: ${pos}`}
+    />
+  ))}
+  {seasonal && (
+    <script is:inline>
+      // Fetch the visible season's photo right away; the hidden one never loads.
+      (function () {
+        var img = document.querySelector('.hero-pic-' + document.documentElement.dataset.season + ' img');
+        if (img) img.loading = 'eager';
+      })();
+    </script>
+  )}
+  <div class="shade" aria-hidden="true"></div>
+  <div class="container content">
+    {kicker && <p class="hero-kicker">{kicker}</p>}
+    <h1>{title}</h1>
+    {lede && <p class="hero-lede">{lede}</p>}
+    {seasonLines && (
+      <p class="hero-season">
+        <span class="season-winter">{seasonLines.winter}</span>
+        <span class="season-summer">{seasonLines.summer}</span>
+      </p>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: grid;
+    align-items: end;
+    color: var(--c-white);
+    background: #3b3a37;
+    isolation: isolate;
+  }
+  .hero-full { min-height: max(34rem, 100svh); }
+  .hero-page { min-height: max(26rem, 68svh); }
+  .hero :global(.hero-pic) { position: absolute; inset: 0; z-index: -2; }
+  .hero :global(.hero-pic img) { width: 100%; height: 100%; object-fit: cover; }
+  .hero :global(.hero-pic-summer) { display: none; }
+  :global(html[data-season='summer']) .hero :global(.hero-pic-summer) { display: block; }
+  :global(html[data-season='summer']) .hero :global(.hero-pic-winter) { display: none; }
+  .season-summer { display: none; }
+  :global(html[data-season='summer']) .season-summer { display: inline; }
+  :global(html[data-season='summer']) .season-winter { display: none; }
+
+  .shade {
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(to bottom, rgba(18, 15, 12, 0.42) 0%, rgba(18, 15, 12, 0) 26%),
+      linear-gradient(to right, rgba(18, 15, 12, 0.38) 0%, rgba(18, 15, 12, 0) 62%),
+      linear-gradient(to top, rgba(18, 15, 12, 0.72) 0%, rgba(18, 15, 12, 0.35) 38%, rgba(18, 15, 12, 0) 62%);
+  }
+  .content { padding-block: calc(var(--header-h) + var(--space-4)) var(--space-5); }
+  .hero-full .content { padding-bottom: clamp(var(--space-5), 10vh, var(--space-6)); }
+  h1 { max-width: 16ch; margin-bottom: var(--space-2); text-shadow: 0 1px 24px rgba(0, 0, 0, 0.25); }
+  .hero-page h1 { font-size: var(--step-4); }
+  .hero-kicker {
+    font: 500 var(--step--1)/1.4 var(--font-text); letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: var(--space-2); opacity: 0.92;
+  }
+  .hero-lede { font-size: var(--step-1); line-height: 1.45; max-width: 42rem; margin-bottom: var(--space-2); }
+  .hero-season { max-width: 36rem; opacity: 0.92; margin-bottom: var(--space-3); }
+</style>

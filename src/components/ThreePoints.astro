@@ -1,0 +1,30 @@
+---
+import Figure from './Figure.astro';
+
+interface Point { title: string; text: string; photo: string; position?: string; href?: string; link?: string }
+interface Props { locale: string; points: Point[] }
+const { locale, points } = Astro.props;
+---
+<ol class="points">
+  {points.map((p, i) => (
+    <li class="point">
+      <Figure id={p.photo} locale={locale} ratio="4 / 3" position={p.position} sizes="(min-width: 900px) 30vw, 100vw" />
+      <div class="body">
+        <p class="num" aria-hidden="true">0{i + 1}</p>
+        <h3>{p.title}</h3>
+        <p>{p.text}</p>
+        {p.href && p.link && <a class="more" href={p.href}>{p.link}</a>}
+      </div>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .points { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-5); }
+  @media (min-width: 900px) { .points { grid-template-columns: repeat(3, 1fr); gap: var(--space-4); } }
+  .point { margin: 0; }
+  .body { padding-top: var(--space-3); }
+  .num { font-family: var(--font-display); color: var(--c-larch-ink); font-size: var(--step-0); margin-bottom: 0.25rem; letter-spacing: 0.04em; }
+  h3 { font-size: var(--step-2); font-weight: 450; }
+  .more { display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; }
+</style>

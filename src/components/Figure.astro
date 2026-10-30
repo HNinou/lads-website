@@ -1,0 +1,47 @@
+---
+// One photo from the catalogue, responsive WebP, translated alt text.
+// Low-quality sources (quality: low) are never generated or shown wider than 900 px.
+import { Image } from 'astro:assets';
+import { alt, maxWidth, photo } from '../lib/photos';
+
+interface Props {
+  id: string;
+  locale: string;
+  sizes?: string;
+  ratio?: string;          // CSS aspect-ratio for a crop, e.g. "4 / 3"; omit to keep the photo's own
+  position?: string;       // object-position for the crop, e.g. "50% 35%"
+  caption?: string;
+  eager?: boolean;
+  class?: string;
+}
+const { id, locale, sizes = '(min-width: 900px) 50vw, 100vw', ratio, position = '50% 50%', caption, eager = false, class: cls } = Astro.props;
+const p = photo(id);
+const max = maxWidth(p);
+const widths = [480, 800, 1200, 1600].filter((w) => w < max).concat(max);
+const style = [ratio && `aspect-ratio: ${ratio}`, p.low && 'max-width: 900px'].filter(Boolean).join('; ');
+---
+<figure class:list={['figure', cls, { low: p.low }]}>
+  <div class="frame" style={style || undefined}>
+    <Image
+      src={p.src}
+      alt={alt(locale, p)}
+      width={max}
+      widths={widths}
+      sizes={sizes}
+      format="webp"
+      quality={66}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      style={`object-position: ${position}`}
+    />
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .figure { margin: 0; }
+  .frame { overflow: hidden; background: var(--c-surface); border-radius: var(--radius); }
+  .frame :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .frame[style*='aspect-ratio'] :global(img) { height: 100%; }
+  figcaption { margin-top: 0.6rem; font-size: var(--step--1); color: var(--c-ink-soft); }
+</style>

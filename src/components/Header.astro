@@ -1,0 +1,151 @@
+---
+import Mark from './Mark.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { pagePath, t, type PageId } from '../lib/i18n';
+
+interface Props { locale: string; page: PageId | '404'; overHero?: boolean }
+const { locale, page, overHero = false } = Astro.props;
+const main: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access'];
+const menu: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access', 'services', 'book'];
+---
+<header class:list={['site-header', { 'over-hero': overHero }]} data-header>
+  <div class="bar">
+    <a class="brand" href={pagePath(locale, 'home')} aria-label={t(locale, 'ui.homeLink')}>
+      <Mark id="mark-header" class="brand-mark" />
+      <span class="brand-name">{t(locale, 'site.name')}</span>
+    </a>
+
+    <nav class="nav-desktop" aria-label={t(locale, 'ui.mainNav')}>
+      <ul>
+        {main.map((id) => (
+          <li><a href={pagePath(locale, id)} aria-current={page === id ? 'page' : undefined}>{t(locale, `nav.${id}`)}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <LanguageSwitcher locale={locale} page={page} class="lang-desktop" />
+    <a class="btn btn-primary header-cta" href={pagePath(locale, 'book')} data-cta="book">{t(locale, 'ui.checkDates')}</a>
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu-panel" data-menu-btn>
+      <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+      <span class="menu-label" data-open={t(locale, 'ui.menu')} data-close={t(locale, 'ui.closeMenu')}>{t(locale, 'ui.menu')}</span>
+    </button>
+  </div>
+
+  <div class="menu-panel" id="menu-panel" data-menu-panel>
+    <nav aria-label={t(locale, 'ui.mainNav')}>
+      <ul class="menu-list">
+        {menu.map((id) => (
+          <li><a href={pagePath(locale, id)} aria-current={page === id ? 'page' : undefined}>{t(locale, `nav.${id}`)}</a></li>
+        ))}
+      </ul>
+    </nav>
+    <LanguageSwitcher locale={locale} page={page} class="lang-menu" />
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const btn = header.querySelector<HTMLButtonElement>('[data-menu-btn]')!;
+  const label = btn.querySelector<HTMLElement>('.menu-label')!;
+  const setOpen = (open: boolean) => {
+    header.classList.toggle('menu-open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? label.dataset.close! : label.dataset.open!;
+    document.documentElement.classList.toggle('no-scroll', open);
+  };
+  btn.addEventListener('click', () => setOpen(btn.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && header.classList.contains('menu-open')) { setOpen(false); btn.focus(); } });
+  matchMedia('(min-width: 1100px)').addEventListener('change', (e) => { if (e.matches) setOpen(false); });
+
+  // Transparent over the hero, solid once the page scrolls.
+  const onScroll = () => header.classList.toggle('is-solid', scrollY > 24);
+  onScroll();
+  addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+<style>
+  .site-header {
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    color: var(--c-ink);
+    background: var(--c-bg);
+    border-bottom: 1px solid rgba(42, 38, 34, 0.1);
+    transition: background-color .3s var(--ease), color .3s var(--ease), border-color .3s var(--ease);
+  }
+  :global(.js) .site-header { position: fixed; }
+  .site-header.over-hero:not(.is-solid):not(.menu-open) {
+    color: var(--c-white);
+    background: linear-gradient(to bottom, rgba(20, 17, 14, 0.5), rgba(20, 17, 14, 0));
+    border-bottom-color: transparent;
+  }
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: var(--header-h);
+    padding-inline: var(--gutter);
+    max-width: 96rem;
+    margin-inline: auto;
+  }
+  .brand {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    min-height: 44px;
+    color: inherit; text-decoration: none;
+    margin-right: auto;
+  }
+  .brand:hover { color: inherit; }
+  .brand :global(.brand-mark) { width: 2.6rem; height: auto; flex: none; }
+  .brand-name { font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; letter-spacing: 0; white-space: nowrap; }
+
+  .nav-desktop, .bar :global(.lang-desktop), .header-cta { display: none; }
+  .nav-desktop ul { display: flex; list-style: none; margin: 0; padding: 0; gap: 0.25rem; }
+  .nav-desktop li { margin: 0; }
+  .nav-desktop a {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.7rem;
+    color: inherit; text-decoration: none; font-weight: 450;
+  }
+  .nav-desktop a:hover, .nav-desktop a[aria-current] { text-decoration: underline; text-decoration-color: var(--c-sun); text-decoration-thickness: 2px; text-underline-offset: 0.45em; color: inherit; }
+  .header-cta { min-height: 44px; padding: 0.55rem 1.1rem; font-size: var(--step--1); }
+
+  .menu-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    min-height: 44px; min-width: 44px; padding: 0 0.25rem 0 0.5rem;
+    background: none; border: 0; color: inherit; font: 500 var(--step--1)/1 var(--font-text);
+    letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer;
+  }
+  .menu-icon { position: relative; width: 22px; height: 12px; }
+  .menu-icon span { position: absolute; left: 0; right: 0; height: 1.5px; background: currentColor; transition: transform .25s var(--ease), top .25s var(--ease); }
+  .menu-icon span:first-child { top: 0; }
+  .menu-icon span:last-child { top: 10px; }
+  .menu-open .menu-icon span:first-child { top: 5px; transform: rotate(45deg); }
+  .menu-open .menu-icon span:last-child { top: 5px; transform: rotate(-45deg); }
+
+  .menu-panel { display: none; }
+  .menu-open .menu-panel {
+    display: flex; flex-direction: column; gap: var(--space-3);
+    height: calc(100dvh - var(--header-h)); overflow-y: auto;
+    padding: var(--space-3) var(--gutter) var(--space-5);
+    background: var(--c-bg); color: var(--c-ink);
+  }
+  .menu-list { list-style: none; margin: 0; padding: 0; }
+  .menu-list li { margin: 0; border-bottom: 1px solid rgba(42, 38, 34, 0.1); }
+  .menu-list a {
+    display: flex; align-items: center; min-height: 56px;
+    font-family: var(--font-display); font-size: var(--step-2); color: var(--c-ink); text-decoration: none;
+  }
+  .menu-list a[aria-current] { color: var(--c-sky); }
+
+  /* Without JavaScript the menu button cannot open anything: the footer carries every link. */
+  :global(html:not(.js)) .menu-btn { display: none; }
+
+  @media (min-width: 640px) {
+    .header-cta { display: inline-flex; }
+  }
+  @media (min-width: 1100px) {
+    .nav-desktop, .bar :global(.lang-desktop) { display: flex; }
+    .menu-btn, .menu-panel, .menu-open .menu-panel { display: none; }
+    .brand-name { font-size: 1.25rem; }
+  }
+</style>

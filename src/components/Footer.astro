@@ -1,0 +1,93 @@
+---
+import Mark from './Mark.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { address, contact, instagramHref, phoneHref, registration, whatsappHref } from '../lib/facts';
+import { pagePath, t, type PageId } from '../lib/i18n';
+
+interface Props { locale: string; page: PageId | '404' }
+const { locale, page } = Astro.props;
+const site: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access', 'services', 'book'];
+const legal: PageId[] = ['legal', 'terms', 'privacy'];
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="container grid">
+    <div class="col brand-col">
+      <a class="brand" href={pagePath(locale, 'home')} aria-label={t(locale, 'ui.homeLink')}>
+        <Mark id="mark-footer" class="mark" />
+        <span>{t(locale, 'site.name')}</span>
+      </a>
+      <h2 class="label">{t(locale, 'footer.address')}</h2>
+      <address>
+        {address.street}<br />
+        {address.postal_code} {address.city}, {address.resort}<br />
+        {address.region}, France
+      </address>
+      {registration && <p class="reg">{t(locale, 'footer.registration', { n: registration })}</p>}
+    </div>
+
+    <div class="col">
+      <h2 class="label">{t(locale, 'footer.contact')}</h2>
+      <ul class="links">
+        <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+        <li><a href={phoneHref}>{contact.phone}</a></li>
+        <li><a href={whatsappHref} rel="noopener">{t(locale, 'footer.whatsapp')}</a></li>
+        <li><a href={instagramHref} rel="noopener">{t(locale, 'footer.instagram')} @{contact.instagram}</a></li>
+      </ul>
+    </div>
+
+    <nav class="col" aria-label={t(locale, 'ui.footerNav')}>
+      <h2 class="label">{t(locale, 'footer.explore')}</h2>
+      <ul class="links">
+        {site.map((id) => <li><a href={pagePath(locale, id)}>{t(locale, `nav.${id}`)}</a></li>)}
+      </ul>
+    </nav>
+
+    <nav class="col" aria-label={t(locale, 'ui.legalNav')}>
+      <h2 class="label">{t(locale, 'footer.info')}</h2>
+      <ul class="links">
+        {legal.map((id) => <li><a href={pagePath(locale, id)}>{t(locale, `nav.${id}`)}</a></li>)}
+      </ul>
+      <LanguageSwitcher locale={locale} page={page} class="footer-lang" />
+    </nav>
+  </div>
+  <div class="container bottom">
+    <p>© {year} {t(locale, 'site.name')}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--c-ink);
+    color: #E9E2D8;
+    padding-block: var(--space-5) var(--space-3);
+    font-size: var(--step--1);
+  }
+  .grid { display: grid; gap: var(--space-4); grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .grid { grid-template-columns: 1.4fr 1.2fr 1fr 1fr; } }
+  .brand {
+    display: inline-flex; align-items: center; gap: 0.6rem; min-height: 44px;
+    color: #FBF7F1; text-decoration: none;
+    font-family: var(--font-display); font-size: var(--step-1); margin-bottom: var(--space-3);
+  }
+  .brand :global(.mark) { width: 2.75rem; flex: none; }
+  .label {
+    font: 500 var(--step--1)/1.4 var(--font-text);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: #C9BFB2; margin: 0 0 var(--space-1);
+  }
+  address { font-style: normal; line-height: 1.7; margin-bottom: var(--space-2); }
+  .links { list-style: none; margin: 0; padding: 0; }
+  .links li { margin: 0; }
+  .links a, .site-footer :global(.footer-lang a) {
+    display: inline-flex; align-items: center; min-height: 44px;
+    color: #FBF7F1; text-decoration: none;
+  }
+  .links a:hover { text-decoration: underline; color: #fff; }
+  .site-footer :global(.footer-lang) { margin-top: var(--space-2); margin-left: -0.35rem; }
+  .bottom { margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid rgba(233, 226, 216, 0.18); color: #C9BFB2; }
+  .bottom p { margin: 0; }
+  /* room for the mobile sticky booking bar */
+  @media (max-width: 639px) { :global(body:not([data-page='book'])) .site-footer { padding-bottom: calc(var(--space-3) + 4.5rem); } }
+</style>
