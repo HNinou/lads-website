@@ -20,10 +20,10 @@
 - [ ] Re-check the Abritel listing (the old link is dead).
 
 ## Domain and email (Nuxit)
-- [ ] Confirm the Nuxit domain is `lesalpagesdusoleil.com` and what currently serves it (old Wix site?). Switch DNS only when the new site is ready.
-- [ ] DNS: `CNAME` `www` → `<github-username>.github.io`; four `A` records for `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; delete old `A`/`CNAME` for `@` and `www`.
+- [ ] Name servers: the domain is registered at Nuxit but uses Wix's (`ns4/ns5.wixdns.net`, old Wix site). Switch them to Nuxit's `ns1.modns.fr` / `ns2.modns.fr` (same as dolceazzurra.com); these already hold the domain's Nuxit zone.
+- [ ] DNS: `CNAME` `www` → `hninou.github.io.`; four `A` records for `@`: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; delete old `A`/`CNAME` for `@` and `www`.
 - [ ] GitHub Pages: custom domain `www.lesalpagesdusoleil.com` → Enforce HTTPS.
-- [ ] Email: ImprovMX MX records + one SPF TXT record (`v=spf1 include:spf.improvmx.com include:_spf.google.com ~all`), then Gmail "Send mail as" for `contact@lesalpagesdusoleil.com`. Then update `contact.email` in chalet.yaml.
+- [ ] Email: ImprovMX MX records + one SPF TXT record (`v=spf1 include:spf.improvmx.com include:_spf.google.com ~all`), same as dolceazzurra.com: delete the old Nuxit mail records (MX `mail`/`mx14`/`mx15`, A `mail`, `webmail`, `lists`); add the domain in ImprovMX with the alias `stay` → the owner's Gmail; then Gmail "Send mail as" for `stay@lesalpagesdusoleil.com`. (`contact.email` in chalet.yaml is already `stay@lesalpagesdusoleil.com`.)
 
 ## After launch
 - [ ] Google Search Console (Domain property, TXT record), sitemap **full URL**: `https://www.lesalpagesdusoleil.com/sitemap-index.xml`; request indexing for `/` and `/en/`.
