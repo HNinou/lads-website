@@ -6,33 +6,47 @@ interface Props { locale: string }
 const { locale } = Astro.props;
 const v = vars(locale);
 const c = chalet.chalet.capacity;
+// Cells split by thin rules as on dolceazzurra.com; the number sits above its label because the
+// chalet's labels are too long to share a line. A feature without a number is a label on its own
+// (one size for "bain nordique" and "sauna").
 const items = [
   { value: c.guests, label: t(locale, 'strip.guests') },
   { value: c.bedrooms, label: t(locale, 'strip.bedrooms') },
   { value: c.bathrooms, label: t(locale, 'strip.bathrooms') },
   { value: v.size, label: t(locale, 'strip.size') },
-  { value: t(locale, 'strip.hotTub'), label: t(locale, 'strip.sauna'), text: true },
+  { label: `${t(locale, 'strip.hotTub')} ${t(locale, 'strip.sauna')}` },
   { value: v.distance, label: t(locale, 'strip.toLifts') },
 ];
 ---
 <section class="facts" aria-label={t(locale, 'strip.label')}>
   <ul class="container">
     {items.map((i) => (
-      <li><span class:list={['value', { text: i.text }]}>{i.value}</span> <span class="label">{i.label}</span></li>
+      <li>{i.value !== undefined && <span class="value">{i.value}</span>} <span class="label">{i.label}</span></li>
     ))}
   </ul>
 </section>
 
 <style>
-  .facts { background: var(--c-surface); border-bottom: 1px solid rgba(185, 138, 78, 0.35); }
-  ul {
-    list-style: none; margin-block: 0; padding: var(--space-3) 0;
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3) var(--space-2);
+  .facts { --rule: 1px solid rgba(185, 138, 78, 0.55); background: var(--c-surface); border-bottom: var(--rule); }
+  ul { list-style: none; margin-block: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); }
+  li {
+    margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.2rem;
+    padding: 1.05rem 0.5rem; text-align: center; border-top: var(--rule);
   }
-  @media (min-width: 700px) { ul { grid-template-columns: repeat(3, 1fr); } }
-  @media (min-width: 1100px) { ul { grid-template-columns: repeat(6, auto); justify-content: space-between; padding-block: var(--space-4); } }
-  li { margin: 0; display: flex; flex-direction: column; gap: 0.15rem; }
-  .value { font-family: var(--font-display); font-size: var(--step-2); line-height: 1.1; font-weight: 450; }
-  .value.text { font-size: var(--step-1); line-height: 1.32; padding-top: 0.25rem; }
-  .label { font-size: var(--step--1); color: var(--c-ink-soft); letter-spacing: 0.02em; }
+  li:first-child, li:nth-child(2) { border-top: 0; }
+  li:nth-child(odd) { border-right: var(--rule); }
+  .value { font: 400 var(--step-2)/1.15 var(--font-display); white-space: nowrap; }
+  .label { font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; color: var(--c-ink-soft); text-wrap: balance; }
+
+  @media (min-width: 700px) {
+    ul { grid-template-columns: repeat(3, 1fr); }
+    li:nth-child(odd) { border-right: 0; }
+    li:not(:nth-child(3n)) { border-right: var(--rule); }
+    li:nth-child(3) { border-top: 0; }
+  }
+  @media (min-width: 1100px) {
+    ul { grid-template-columns: repeat(6, 1fr); }
+    li, li:not(:nth-child(3n)) { border: 0; padding-block: 1.6rem; }
+    li + li { border-left: var(--rule); }
+  }
 </style>
