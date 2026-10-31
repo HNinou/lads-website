@@ -7,7 +7,7 @@ import Gallery from '../../components/Gallery.astro';
 import Lightbox from '../../components/Lightbox.astro';
 import BookBand from '../../components/BookBand.astro';
 import { bedroomsWithBeds, chalet, spaces } from '../../lib/facts';
-import { colon, fact, localePaths, page } from '../../lib/i18n';
+import { colon, fact, localePaths, page, welcomeLinked } from '../../lib/i18n';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props;
@@ -16,7 +16,7 @@ const c = chalet.chalet;
 const space = (ids: string[]) => spaces.filter((s: any) => ids.includes(s.id)).map((s: any) => (locale === 'en' ? s.en : s[locale] ?? fact(locale, s.en)));
 ---
 <Base locale={locale} page="chalet" title={fm.title} description={fm.description} ogPhoto="14" overHero>
-  <Hero locale={locale} winter="14" position="50% 60%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede}>
+  <Hero locale={locale} size="tall" winter="14" position="50% 55%" kicker={fm.hero.kicker} title={fm.hero.title} lede={fm.hero.lede}>
     <p class="setting">{fact(locale, c.setting)}</p>
   </Hero>
 
@@ -75,7 +75,7 @@ const space = (ids: string[]) => spaces.filter((s: any) => ids.includes(s.id)).m
     <div class="cols">
       <div>
         <h2 class="h">{fm.includedTitle}</h2>
-        <ul class="ticks">{c.included.map((i: string) => <li>{fact(locale, i)}</li>)}</ul>
+        <ul class="ticks">{c.included.map((i: string) => <li set:html={welcomeLinked(fact(locale, i))} />)}</ul>
       </div>
       <div>
         <h2 class="h">{fm.rulesTitle}</h2>

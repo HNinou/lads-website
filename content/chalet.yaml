@@ -38,13 +38,14 @@ contact:
   whatsapp: "33671119490"
   instagram: "lesalpagesdusoleil"
   languages_spoken: [fr, en]
-  local_welcome: "Anthony, Les Clefs de la Rosière"   # meets guests and explains the chalet
+  local_welcome: "Anthony, Les Clés de la Rosière"   # meets guests and explains the chalet
+  local_welcome_url: "https://lesclesdelarosiere.fr/"   # his conciergerie (owner, 31 Oct 2026)
 
 booking:
   provider: hostaway
-  base_url: "https://lesalpagesdusoleil.holidayfuture.com/"
+  base_url: "https://book.lesalpagesdusoleil.com/"
   listing_id: 559125
-  listing_url: "https://lesalpagesdusoleil.holidayfuture.com/listings/559125"
+  listing_url: "https://book.lesalpagesdusoleil.com/listings/559125"
   widget_button_action: checkout
   # Only ONE booking path on the site: Hostaway. No Abritel/Airbnb links (the old Abritel link is dead).
 
@@ -102,7 +103,7 @@ chalet:
     - "Cleaning before and after your stay (kitchen and fridge to be left clean)"
     - "For week stays: towel change and light clean on Wednesday"
     - "Firewood for the fireplace and the hot tub stove"
-    - "Welcome on site by Anthony (Les Clefs de la Rosière)"
+    - "Welcome on site by Anthony (Les Clés de la Rosière)"
   reviews:
     hostaway: { rating: 5.0, count: 1, as_of: "2026-10-30" }
     quotes:   # real quotes only; owner adds more with first name, country, month
@@ -120,6 +121,7 @@ location:
     labels: ["Famille Plus", "Flocon Vert"]
     season_2026_27: "12 December 2026 – 17 April 2027 (Franco-Italian link until 11 April)"
     source: "https://www.larosiere.net/en/the-ski-area/"
+    skipass_url: "https://www.larosiere.ski/fr/produit/xperiences-skipass"   # resort ski-pass shop, French only (owner, 31 Oct 2026)
   to_lifts: { distance: "300 m as the crow flies", walk_minutes: TODO_OWNER, route: "Footpath past the tennis courts to the lift car park" }
   village: ["Supermarket in the village", "Bakery delivering bread to the chalet each morning", "Cheese cooperative in the main street"]
   restaurants:

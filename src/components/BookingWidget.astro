@@ -1,6 +1,7 @@
 ---
 // Hostaway calendar widget (listing and base URL from chalet.yaml). One per page.
-// The Hostaway script is only fetched when the calendar comes near the viewport.
+// The Hostaway script is only fetched when the calendar comes near the viewport. The direct link to the
+// listing page is only shown without JavaScript (owner, 31 Oct 2026); otherwise the calendar is the way in.
 import { chalet } from '../lib/facts';
 import { t } from '../lib/i18n';
 
@@ -24,8 +25,8 @@ const config = {
   <p class="loading" data-widget-loading aria-live="polite">{t(locale, 'widget.loading')}</p>
   <noscript>
     <p>{t(locale, 'widget.noscript')}</p>
+    <p class="fallback"><a href={b.listing_url}>{t(locale, 'widget.fallback')}</a></p>
   </noscript>
-  <p class="fallback"><a href={b.listing_url}>{t(locale, 'widget.fallback')}</a></p>
 </div>
 
 <script>

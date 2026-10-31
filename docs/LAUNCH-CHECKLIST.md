@@ -13,7 +13,7 @@
 - [ ] Have the Legal notice, Terms (CGV) and Privacy pages checked.
 
 ## Hostaway (listing 559125)
-- [ ] Booking website published at `lesalpagesdusoleil.holidayfuture.com`; colours `#2E5E86` / `#F6F3EE`; logo.
+- [ ] Booking website published at `book.lesalpagesdusoleil.com` (CNAME `book` → Hostaway; HTTPS must work before the site points there); colours `#2E5E86` / `#F6F3EE`; logo.
 - [ ] Same facts as chalet.yaml: check-in 16:00, check-out 10:00, size, rules, cancellation, cleaning fee.
 - [ ] Turn on **Google Vacation Rentals**.
 - [ ] Platform titles start with "Les Alpages du Soleil" (Airbnb listing name field), descriptions without "luxe", registration number when issued.

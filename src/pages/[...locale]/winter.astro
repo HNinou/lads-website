@@ -23,6 +23,7 @@ const v = vars(locale);
       <li><span class="n">{v.altitude}</span> <span class="l">{fm.area.facts.altitude}</span></li>
     </ul>
     <p class="season"><strong>{fm.area.seasonLabel}</strong>{colon(locale)}{v.skiSeason}.</p>
+    <p><a class="btn btn-ghost" href={ski.skipass_url} rel="noopener">{fm.area.skipass}</a></p>
     <p class="source">{t(locale, 'ui.source')}{colon(locale)}<a href={ski.source} rel="noopener">{fm.area.sourceLabel} (larosiere.net)</a></p>
   </Section>
 

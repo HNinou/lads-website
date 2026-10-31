@@ -12,7 +12,7 @@ import Reviews from '../../components/Reviews.astro';
 import BookingFacts from '../../components/BookingFacts.astro';
 import BookingWidget from '../../components/BookingWidget.astro';
 import { DOMAIN, address, chalet, classification, contact, registration, weeklyFrom, whatsappHref } from '../../lib/facts';
-import { HTML_LANG, euros, fact, localePaths, page, pagePath, t } from '../../lib/i18n';
+import { HTML_LANG, euros, fact, localePaths, page, pagePath, t, welcomeLinked } from '../../lib/i18n';
 import { maxWidth, photo } from '../../lib/photos';
 
 export const getStaticPaths = localePaths;
@@ -137,7 +137,7 @@ const jsonLd = {
         <h3>{fm.trust.hostsTitle}</h3>
         {locale !== 'fr' && fm.trust.meaning && <p>{fm.trust.meaning}</p>}
         <p>{fm.trust.hosts}</p>
-        <p>{fm.trust.welcome}</p>
+        <p set:html={welcomeLinked(fm.trust.welcome)} />
         {(classification || registration) && (
           <p class="official">
             {classification && <span>{classification}</span>}
@@ -160,7 +160,7 @@ const jsonLd = {
         <div>
           <h3>{fm.booking.includedTitle}</h3>
           <ul class="ticks">
-            {c.included.map((i: string) => <li>{fact(locale, i)}</li>)}
+            {c.included.map((i: string) => <li set:html={welcomeLinked(fact(locale, i))} />)}
           </ul>
         </div>
       </div>

@@ -40,7 +40,7 @@ Never claim a step is done without running its check and reading the output.
 3. **Never publish access information:** no Wi-Fi password, key-box code or door code, anywhere. They belong in the guest guide (Touchstay/Hostaway), not on the website.
 4. **One booking path: Hostaway** (listing 559125). Every page has a visible "Check dates" button (`data-cta="book"`) to the Book page with the calendar widget. No Abritel/Airbnb links.
 5. **Registration number:** when `legal.registration_number` is filled in, it appears in the footer of every page (the verifier enforces this). Until then, the footer shows the legal notice link only.
-6. **No third-party requests** except the Hostaway widget (`d2q3n06xhbi0am.cloudfront.net`, `lesalpagesdusoleil.holidayfuture.com`). Self-hosted fonts, no Google Maps embeds (a link only), no analytics, no cookie banner.
+6. **No third-party requests** except the Hostaway widget (`d2q3n06xhbi0am.cloudfront.net`, `book.lesalpagesdusoleil.com`, Hostaway on the owner's domain). Self-hosted fonts, no Google Maps embeds (a link only), no analytics, no cookie banner.
 7. **No hidden text, keyword lists or `meta keywords`.**
 8. **Draft locales (`de`, `nl`) are not built** until chalet.yaml marks them `live`.
 9. **The repo is public.** No secrets, guest data or access codes.
@@ -188,7 +188,7 @@ Identical to the villa kit: `src/components/BookingWidget.astro`, one per page, 
 <script src="https://d2q3n06xhbi0am.cloudfront.net/calendar.js"></script>
 <script>
   window.hostawayCalendarWidget({
-    baseUrl: 'https://lesalpagesdusoleil.holidayfuture.com/',   // chalet.yaml booking.base_url
+    baseUrl: 'https://book.lesalpagesdusoleil.com/',   // chalet.yaml booking.base_url
     listingId: 559125,                                         // chalet.yaml booking.listing_id
     numberOfMonths: 2, openInNewTab: false, font: 'Open Sans', rounded: false,
     button: { action: 'checkout', text: 'Voir les disponibilités' },   // localize

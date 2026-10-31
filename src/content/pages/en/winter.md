@@ -16,6 +16,7 @@ area:
     altitude: "altitude"
   seasonLabel: "2026–27 season"
   sourceLabel: "Resort figures"
+  skipass: "Buy your ski pass on the resort website (in French)"
 italy:
   kicker: "The Italian side"
   title: "Lunch in Italy"

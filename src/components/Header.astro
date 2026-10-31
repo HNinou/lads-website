@@ -23,6 +23,7 @@ const menu: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access', 'serv
       </ul>
     </nav>
 
+    <div class="bar-end">
     <LanguageSwitcher locale={locale} page={page} class="lang-desktop" />
     <a class="btn btn-primary header-cta" href={pagePath(locale, 'book')} data-cta="book">{t(locale, 'ui.checkDates')}</a>
 
@@ -30,6 +31,7 @@ const menu: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access', 'serv
       <span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
       <span class="menu-label" data-open={t(locale, 'ui.menu')} data-close={t(locale, 'ui.closeMenu')}>{t(locale, 'ui.menu')}</span>
     </button>
+    </div>
   </div>
 
   <div class="menu-panel" id="menu-panel" data-menu-panel>
@@ -96,6 +98,7 @@ const menu: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access', 'serv
     margin-right: auto;
   }
   .brand:hover { color: inherit; }
+  .bar-end { display: flex; align-items: center; gap: var(--space-2); }
   .brand :global(.brand-mark) { width: 2.6rem; height: auto; flex: none; }
   .brand-name { font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; letter-spacing: 0; white-space: nowrap; }
 
@@ -147,5 +150,9 @@ const menu: PageId[] = ['chalet', 'gallery', 'winter', 'summer', 'access', 'serv
     .nav-desktop, .bar :global(.lang-desktop) { display: flex; }
     .menu-btn, .menu-panel, .menu-open .menu-panel { display: none; }
     .brand-name { font-size: 1.25rem; }
+    /* Nav centred in the bar, as on dolceazzurra.com: both sides take the same width. */
+    .brand, .bar-end { flex: 1 1 0; }
+    .brand { margin-right: 0; }
+    .bar-end { justify-content: flex-end; }
   }
 </style>

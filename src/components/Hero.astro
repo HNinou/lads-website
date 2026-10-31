@@ -14,7 +14,7 @@ interface Props {
   title: string;
   lede?: string;
   seasonLines?: { winter: string; summer: string };
-  size?: 'full' | 'page';
+  size?: 'full' | 'page' | 'tall'; // tall: a page hero that keeps most of a 4:3 photo on wide screens
 }
 const { locale, winter, summer, position = '50% 50%', summerPosition = '50% 50%', kicker, title, lede, seasonLines, size = 'page' } = Astro.props;
 const shots = [{ season: 'winter', p: photo(winter), pos: position }, ...(summer ? [{ season: 'summer', p: photo(summer), pos: summerPosition }] : [])];
@@ -73,7 +73,8 @@ const seasonal = shots.length > 1;
     isolation: isolate;
   }
   .hero-full { min-height: max(34rem, 100svh); }
-  .hero-page { min-height: max(26rem, 68svh); }
+  .hero-page, .hero-tall { min-height: max(26rem, 68svh); }
+  @media (min-width: 900px) { .hero-tall { min-height: min(100svh, 75vw); } }
   .hero :global(.hero-pic) { position: absolute; inset: 0; z-index: -2; }
   .hero :global(.hero-pic img) { width: 100%; height: 100%; object-fit: cover; }
   .hero :global(.hero-pic-summer) { display: none; }
@@ -93,7 +94,7 @@ const seasonal = shots.length > 1;
   .content { padding-block: calc(var(--header-h) + var(--space-4)) var(--space-5); }
   .hero-full .content { padding-bottom: clamp(var(--space-5), 10vh, var(--space-6)); }
   h1 { max-width: 16ch; margin-bottom: var(--space-2); text-shadow: 0 1px 24px rgba(0, 0, 0, 0.25); }
-  .hero-page h1 { font-size: var(--step-4); }
+  .hero-page h1, .hero-tall h1 { font-size: var(--step-4); }
   .hero-kicker {
     font: 600 var(--step-0)/1.4 var(--font-text); letter-spacing: 0.1em; text-transform: uppercase;
     margin-bottom: var(--space-2);

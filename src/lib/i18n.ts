@@ -114,7 +114,7 @@ export function vars(locale: string): Record<string, string | number> {
     setting: fact(locale, c.setting),
     cancellation: fact(locale, chalet.legal.cancellation),
     resort: chalet.legal.address.resort,
-    welcome: chalet.contact.local_welcome.replace(/^([^,]+),\s*(.+)$/, '$1 ($2)'), // "Anthony (Les Clefs de la Rosière)"
+    welcome: chalet.contact.local_welcome.replace(/^([^,]+),\s*(.+)$/, '$1 ($2)'), // "Anthony (Les Clés de la Rosière)"
     phone: nbsp(chalet.contact.phone),
     email: chalet.contact.email,
   };
@@ -140,3 +140,11 @@ export const euros = (locale: string, n: number) =>
 
 /** Colon with the page language's spacing: " : " (fr, non-breaking) / ": " (en). */
 export const colon = (locale: string) => (locale === 'fr' ? ' : ' : ': ');
+
+/** HTML for a sentence with the local welcome's business name linked to its website (chalet.yaml contact). */
+export function welcomeLinked(text: string): string {
+  const esc = (x: string) => x.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const name = chalet.contact.local_welcome.split(',').slice(1).join(',').trim();
+  const url = chalet.contact.local_welcome_url;
+  return url ? esc(text).replace(esc(name), `<a href="${esc(url)}" rel="noopener">${esc(name)}</a>`) : esc(text);
+}

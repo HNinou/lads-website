@@ -5,7 +5,7 @@ import BookingWidget from '../../components/BookingWidget.astro';
 import BookingFacts from '../../components/BookingFacts.astro';
 import Faq from '../../components/Faq.astro';
 import { chalet } from '../../lib/facts';
-import { fact, localePaths, page } from '../../lib/i18n';
+import { fact, localePaths, page, welcomeLinked } from '../../lib/i18n';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props;
@@ -27,7 +27,7 @@ const c = chalet.chalet;
       <BookingFacts locale={locale} />
       <div>
         <h3>{fm.includedTitle}</h3>
-        <ul class="ticks">{c.included.map((i: string) => <li>{fact(locale, i)}</li>)}</ul>
+        <ul class="ticks">{c.included.map((i: string) => <li set:html={welcomeLinked(fact(locale, i))} />)}</ul>
         <h3 class="sub">{fm.rulesTitle}</h3>
         <ul class="ticks">{c.rules.map((r: string) => <li>{fact(locale, r)}</li>)}</ul>
       </div>

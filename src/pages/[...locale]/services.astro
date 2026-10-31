@@ -5,7 +5,7 @@ import Section from '../../components/Section.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
 import BookBand from '../../components/BookBand.astro';
 import { chalet } from '../../lib/facts';
-import { fact, localePaths, page } from '../../lib/i18n';
+import { fact, localePaths, page, welcomeLinked } from '../../lib/i18n';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props;
@@ -21,7 +21,7 @@ const { fm } = page(locale, 'services');
   </Section>
 
   <Section kicker={fm.included.kicker} title={fm.included.title} narrow>
-    <ul class="ticks">{chalet.chalet.included.map((i: string) => <li>{fact(locale, i)}</li>)}</ul>
+    <ul class="ticks">{chalet.chalet.included.map((i: string) => <li set:html={welcomeLinked(fact(locale, i))} />)}</ul>
   </Section>
 
   <BookBand locale={locale} />

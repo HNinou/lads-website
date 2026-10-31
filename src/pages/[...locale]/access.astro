@@ -6,7 +6,7 @@ import AccessList from '../../components/AccessList.astro';
 import Figure from '../../components/Figure.astro';
 import BookBand from '../../components/BookBand.astro';
 import { address, chalet } from '../../lib/facts';
-import { fact, localePaths, page, pagePath } from '../../lib/i18n';
+import { fact, localePaths, page, pagePath, welcomeLinked } from '../../lib/i18n';
 
 export const getStaticPaths = localePaths;
 const { locale } = Astro.props;
@@ -42,7 +42,7 @@ const parking = chalet.chalet.amenities.find((a: string) => /parking/i.test(a));
 
   <Section kicker={fm.arrival.kicker} title={fm.arrival.title} narrow>
     <p class="lede">{fm.arrival.times}</p>
-    <p>{fm.arrival.welcome}</p>
+    <p set:html={welcomeLinked(fm.arrival.welcome)} />
     <p>{fm.arrival.transfers} <a href={pagePath(locale, 'services')}>{fm.arrival.transfersLink}</a></p>
   </Section>
 

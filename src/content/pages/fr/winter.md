@@ -16,6 +16,7 @@ area:
     altitude: "d'altitude"
   seasonLabel: "Saison 2026-2027"
   sourceLabel: "Chiffres de la station"
+  skipass: "Acheter votre forfait sur le site de la station"
 italy:
   kicker: "Côté italien"
   title: "Déjeuner en Italie"
